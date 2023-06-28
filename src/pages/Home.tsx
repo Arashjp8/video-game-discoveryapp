@@ -85,9 +85,19 @@ const Home = () => {
         </HStack>
       </Flex>
 
-      <SimpleGrid spacing={10} minChildWidth={"300px"}>
+      <SimpleGrid marginTop={5} spacing={10} minChildWidth={"300px"}>
         {error && <Text>{error}</Text>}
-        {games && games.map((game) => <Card key={game.id}>{game.name}</Card>)}
+        {games &&
+          games.map((game) => (
+            <Card
+              key={game.id}
+              backgroundColor={"whiteAlpha.100"}
+              color={"whiteAlpha.800"}
+              height={"200px"}
+            >
+              {game.name}
+            </Card>
+          ))}
       </SimpleGrid>
     </>
   );

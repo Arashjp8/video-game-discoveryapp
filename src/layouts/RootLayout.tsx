@@ -1,4 +1,4 @@
-import { Container, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
