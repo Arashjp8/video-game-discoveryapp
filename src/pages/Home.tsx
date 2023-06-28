@@ -2,10 +2,13 @@ import {
   Card,
   Flex,
   HStack,
+  Image,
   Select,
   SimpleGrid,
+  Spacer,
   StackItem,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
@@ -13,6 +16,9 @@ import apiClient from "../services/api-client";
 interface Game {
   id: number;
   name: string;
+  rating: number;
+  background_image: string;
+  released: string;
 }
 
 interface FetchGamesResponse {
@@ -23,6 +29,16 @@ interface FetchGamesResponse {
 const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
+  const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
+  const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
+  const selectBackgroundColor = useColorModeValue(
+    "blackAlpha.200",
+    "blackAlpha.300"
+  );
+  const cardBackgroundColor = useColorModeValue(
+    "blackAlpha.200",
+    "whiteAlpha.100"
+  );
 
   const selectStyles = {
     ":hover": {
@@ -51,8 +67,8 @@ const Home = () => {
               <Select
                 sx={selectStyles}
                 variant={"filled"}
-                color={"whiteAlpha.600"}
-                backgroundColor={"blackAlpha.300"}
+                color={selectTextColor}
+                backgroundColor={selectBackgroundColor}
                 size={"sm"}
                 borderRadius={"10px"}
                 width={"144px"}
@@ -69,8 +85,8 @@ const Home = () => {
               <Select
                 sx={selectStyles}
                 variant={"filled"}
-                color={"whiteAlpha.600"}
-                backgroundColor={"blackAlpha.300"}
+                color={selectTextColor}
+                backgroundColor={selectBackgroundColor}
                 size={"sm"}
                 borderRadius={"10px"}
                 width={"144px"}
@@ -91,11 +107,29 @@ const Home = () => {
           games.map((game) => (
             <Card
               key={game.id}
-              backgroundColor={"whiteAlpha.100"}
-              color={"whiteAlpha.800"}
-              height={"200px"}
+              backgroundColor={cardBackgroundColor}
+              color={textColor}
+              // height={"200px"}
+              textAlign={"center"}
+              borderRadius={"20px"}
+              cursor={"pointer"}
+              paddingBottom={2}
             >
-              {game.name}
+              <Flex flexDirection={"column"}>
+                <Image
+                  height={"300px"}
+                  objectFit={"cover"}
+                  src={game.background_image}
+                  borderRadius={"20px"}
+                />
+                <Text margin={2} fontSize={"2xl"} fontWeight={"bold"}>
+                  {game.name}
+                </Text>
+                <Spacer />
+                <Text fontSize={"large"}>Rating: {game.rating}</Text>
+                <Spacer />
+                <Text fontSize={"large"}>Released: {game.released}</Text>
+              </Flex>
             </Card>
           ))}
       </SimpleGrid>

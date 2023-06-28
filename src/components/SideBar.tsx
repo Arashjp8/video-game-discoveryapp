@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
   return (
-    <List fontSize={"1.4em"} color={"white"} spacing={4} margin={"20px"}>
+    <List fontSize={"1.4em"} spacing={4} margin={"20px"}>
       <ListItem>
         <NavLink to={"/"}>Home</NavLink>
       </ListItem>
