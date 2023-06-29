@@ -1,3 +1,4 @@
+import { Search2Icon } from "@chakra-ui/icons";
 import {
   Card,
   Flex,
@@ -9,6 +10,9 @@ import {
   StackItem,
   Text,
   useColorModeValue,
+  Input,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
@@ -39,6 +43,14 @@ const Home = () => {
     "blackAlpha.200",
     "whiteAlpha.100"
   );
+  const searchBoxTextColor = useColorModeValue(
+    "blackAlpha.600",
+    "whiteAlpha.600"
+  );
+  const searchBoxBackgroundColor = useColorModeValue(
+    "blackAlpha.200",
+    "blackAlpha.300"
+  );
 
   const selectStyles = {
     ":hover": {
@@ -46,6 +58,7 @@ const Home = () => {
       backgroundColor: "blackAlpha.500",
     },
   };
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     apiClient
@@ -57,9 +70,35 @@ const Home = () => {
   return (
     <>
       <Flex flexDirection={"column"}>
-        <Text fontSize={"4xl"} fontWeight={"700"}>
-          HOME
-        </Text>
+        <Flex>
+          <Text fontSize={"4xl"} fontWeight={"700"}>
+            HOME
+          </Text>
+          <Spacer />
+          <InputGroup width={"60%"} marginLeft={5}>
+            <InputLeftElement pointerEvents={"none"}>
+              <Search2Icon color={textColor} />
+            </InputLeftElement>
+            <Input
+              type="text"
+              onChange={(userInput) => {
+                setSearchInput(userInput.currentTarget.value);
+                console.log(searchInput);
+                let filteredGames: Game[] = games.filter((game) =>
+                  game.name.toLowerCase().includes(searchInput.toLowerCase())
+                );
+                setGames(filteredGames);
+              }}
+              value={searchInput}
+              placeholder="search..."
+              _placeholder={{ color: searchBoxTextColor }}
+              size={"lg"}
+              background={searchBoxBackgroundColor}
+              color={searchBoxTextColor}
+              border={"none"}
+            />
+          </InputGroup>
+        </Flex>
         <HStack marginTop={4} textAlign={"center"}>
           <StackItem marginRight={2}>
             <HStack>
@@ -109,7 +148,6 @@ const Home = () => {
               key={game.id}
               backgroundColor={cardBackgroundColor}
               color={textColor}
-              // height={"200px"}
               textAlign={"center"}
               borderRadius={"20px"}
               cursor={"pointer"}
