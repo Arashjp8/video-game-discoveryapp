@@ -33,6 +33,8 @@ interface FetchGamesResponse {
 const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  // const [originalGames, setOriginalGames] = useState<Game[]>([]);
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
   const selectBackgroundColor = useColorModeValue(
@@ -58,7 +60,6 @@ const Home = () => {
       backgroundColor: "blackAlpha.500",
     },
   };
-  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     apiClient
@@ -82,12 +83,19 @@ const Home = () => {
             <Input
               type="text"
               onChange={(userInput) => {
-                setSearchInput(userInput.currentTarget.value);
+                setSearchInput(userInput.target.value);
                 console.log(searchInput);
-                let filteredGames: Game[] = games.filter((game) =>
-                  game.name.toLowerCase().includes(searchInput.toLowerCase())
-                );
-                setGames(filteredGames);
+
+                const originalGames: Game[] = games;
+
+                if (searchInput.length > 0) {
+                  let filteredGames: Game[] = games.filter((game) =>
+                    game.name.toLowerCase().includes(searchInput.toLowerCase())
+                  );
+                  setGames(filteredGames);
+                } else {
+                  setGames(originalGames);
+                }
               }}
               value={searchInput}
               placeholder="search..."
