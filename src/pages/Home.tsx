@@ -34,7 +34,6 @@ const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  // const [originalGames, setOriginalGames] = useState<Game[]>([]);
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
   const selectBackgroundColor = useColorModeValue(
@@ -76,7 +75,8 @@ const Home = () => {
             HOME
           </Text>
           <Spacer />
-          <InputGroup width={"60%"} marginLeft={5}>
+
+          <InputGroup width={"50%"} marginRight={2}>
             <InputLeftElement pointerEvents={"none"}>
               <Search2Icon color={textColor} />
             </InputLeftElement>
