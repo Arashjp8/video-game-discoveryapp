@@ -17,12 +17,19 @@ import {
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
+interface Platform {
+  id: number;
+  name: string;
+  image_background: string;
+}
+
 interface Game {
   id: number;
   name: string;
   rating: number;
   background_image: string;
   released: string;
+  parent_platforms: { platform: Platform }[];
 }
 
 interface FetchGamesResponse {
@@ -36,6 +43,7 @@ const Home = () => {
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [platformSelection, setPlatformSelection] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
   const selectBackgroundColor = useColorModeValue(
@@ -166,8 +174,6 @@ const Home = () => {
   }, [sortOption]);
 
   useEffect(() => {
-    console.log(searchInput.length);
-
     if (searchInput.length === 0) {
       setFilteredGames(games);
     } else {
@@ -177,6 +183,23 @@ const Home = () => {
       setFilteredGames(filtered);
     }
   }, [searchInput, games]);
+
+  useEffect(() => {
+    console.log(platformSelection);
+    if (platformSelection !== "all") {
+      let filtered: Game[] = games.filter((game) =>
+        game.parent_platforms.some(
+          (platform) =>
+            platform.platform.name.toLowerCase() ===
+            platformSelection.toLowerCase()
+        )
+      );
+      setFilteredGames(filtered);
+    } else {
+      setFilteredGames(games);
+    }
+    console.log(filteredGames);
+  }, [platformSelection]);
 
   return (
     <>
@@ -195,7 +218,6 @@ const Home = () => {
               type="text"
               onChange={(userInput) => {
                 setSearchInput(userInput.target.value);
-                console.log(searchInput);
               }}
               value={searchInput}
               placeholder="search..."
@@ -239,7 +261,11 @@ const Home = () => {
                 size={"sm"}
                 borderRadius={"10px"}
                 width={"144px"}
+                onChange={(userInput) =>
+                  setPlatformSelection(userInput.target.value)
+                }
               >
+                <option value="all">All</option>
                 <option value="pc">PC</option>
                 <option value="xbox">Xbox</option>
                 <option value="playstation">Playstation</option>
@@ -277,6 +303,12 @@ const Home = () => {
                 <Text fontSize={"large"}>Rating: {game.rating}</Text>
                 <Spacer />
                 <Text fontSize={"large"}>Released: {game.released}</Text>
+                <Spacer />
+                <Text>
+                  {game.parent_platforms
+                    .map((platform) => platform.platform.name)
+                    .join(", ")}
+                </Text>
               </Flex>
             </Card>
           ))}
