@@ -61,6 +61,46 @@ const Home = () => {
     },
   };
 
+  const mergeSort = (array: Game[]): Game[] => {
+    if (array.length <= 1) {
+      return array;
+    }
+
+    const middle = Math.floor(array.length / 2);
+    const left = array.slice(0, middle);
+    const right = array.slice(middle);
+
+    const merge = (left: Game[], right: Game[]) => {
+      let result = [];
+      let i = 0;
+      let j = 0;
+
+      while (i < left.length && j < right.length) {
+        if (new Date(left[i].released) <= new Date(right[j].released)) {
+          result.push(left[i]);
+          i++;
+        } else {
+          result.push(right[j]);
+          j++;
+        }
+      }
+
+      while (i < left.length) {
+        result.push(left[i]);
+        i++;
+      }
+
+      while (j < right.length) {
+        result.push(right[j]);
+        j++;
+      }
+
+      return result;
+    };
+
+    return merge(mergeSort(left), mergeSort(right));
+  };
+
   useEffect(() => {
     apiClient
       .get<FetchGamesResponse>("/games")
@@ -68,12 +108,7 @@ const Home = () => {
         let sortedGames = res.data.results;
 
         if (sortOption === "release-date") {
-          sortedGames = sortedGames.sort((game1, game2) => {
-            return (
-              new Date(game1.released).getDate() -
-              new Date(game2.released).getDate()
-            );
-          });
+          sortedGames = mergeSort(sortedGames);
         }
 
         setGames(sortedGames);
