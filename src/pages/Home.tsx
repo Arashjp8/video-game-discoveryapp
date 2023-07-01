@@ -32,6 +32,7 @@ interface FetchGamesResponse {
 
 const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("");
@@ -164,6 +165,19 @@ const Home = () => {
       .catch((err) => setError(err.message));
   }, [sortOption]);
 
+  useEffect(() => {
+    console.log(searchInput.length);
+
+    if (searchInput.length === 0) {
+      setFilteredGames(games);
+    } else {
+      let filtered: Game[] = games.filter((game) =>
+        game.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      setFilteredGames(filtered);
+    }
+  }, [searchInput, games]);
+
   return (
     <>
       <Flex flexDirection={"column"}>
@@ -182,17 +196,6 @@ const Home = () => {
               onChange={(userInput) => {
                 setSearchInput(userInput.target.value);
                 console.log(searchInput);
-
-                const originalGames: Game[] = games;
-
-                if (searchInput.length > 0) {
-                  let filteredGames: Game[] = games.filter((game) =>
-                    game.name.toLowerCase().includes(searchInput.toLowerCase())
-                  );
-                  setGames(filteredGames);
-                } else {
-                  setGames(originalGames);
-                }
               }}
               value={searchInput}
               placeholder="search..."
@@ -218,6 +221,7 @@ const Home = () => {
                 width={"144px"}
                 onChange={(event) => setSortOption(event.target.value)}
               >
+                <option defaultValue="random">Random</option>
                 <option value="name">Name</option>
                 <option value="release-date">Release date</option>
                 <option value="rating">Rating</option>
@@ -248,8 +252,8 @@ const Home = () => {
 
       <SimpleGrid marginTop={5} spacing={10} minChildWidth={"300px"}>
         {error && <Text>{error}</Text>}
-        {games &&
-          games.map((game) => (
+        {filteredGames &&
+          filteredGames.map((game) => (
             <Card
               key={game.id}
               backgroundColor={cardBackgroundColor}
