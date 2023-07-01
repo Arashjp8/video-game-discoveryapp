@@ -61,7 +61,7 @@ const Home = () => {
     },
   };
 
-  const mergeSort = (array: Game[]): Game[] => {
+  const dateMergeSort = (array: Game[]): Game[] => {
     if (array.length <= 1) {
       return array;
     }
@@ -98,7 +98,47 @@ const Home = () => {
       return result;
     };
 
-    return merge(mergeSort(left), mergeSort(right));
+    return merge(dateMergeSort(left), dateMergeSort(right));
+  };
+
+  const nameQuickSort = (array: Game[]): Game[] => {
+    if (array.length <= 1) {
+      return array;
+    }
+
+    const pivot = array[Math.floor(array.length / 2)];
+    const left: Game[] = [];
+    const right: Game[] = [];
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].name < pivot.name) {
+        left.push(array[i]);
+      } else if (array[i].name > pivot.name) {
+        right.push(array[i]);
+      }
+    }
+
+    return [...nameQuickSort(left), pivot, ...nameQuickSort(right)];
+  };
+
+  const ratingQuickSort = (array: Game[]): Game[] => {
+    if (array.length <= 1) {
+      return array;
+    }
+
+    const pivot = array[Math.floor(array.length / 2)];
+    const left: Game[] = [];
+    const right: Game[] = [];
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].rating > pivot.rating) {
+        left.push(array[i]);
+      } else if (array[i].rating < pivot.rating) {
+        right.push(array[i]);
+      }
+    }
+
+    return [...ratingQuickSort(left), pivot, ...ratingQuickSort(right)];
   };
 
   useEffect(() => {
@@ -108,7 +148,15 @@ const Home = () => {
         let sortedGames = res.data.results;
 
         if (sortOption === "release-date") {
-          sortedGames = mergeSort(sortedGames);
+          sortedGames = dateMergeSort(sortedGames);
+        }
+
+        if (sortOption === "name") {
+          sortedGames = nameQuickSort(sortedGames);
+        }
+
+        if (sortOption === "rating") {
+          sortedGames = ratingQuickSort(sortedGames);
         }
 
         setGames(sortedGames);
