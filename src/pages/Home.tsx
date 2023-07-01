@@ -76,7 +76,7 @@ const Home = () => {
       let j = 0;
 
       while (i < left.length && j < right.length) {
-        if (new Date(left[i].released) <= new Date(right[j].released)) {
+        if (new Date(left[i].released) > new Date(right[j].released)) {
           result.push(left[i]);
           i++;
         } else {
