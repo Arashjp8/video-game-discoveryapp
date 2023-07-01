@@ -34,6 +34,7 @@ const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [sortOption, setSortOption] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
   const selectBackgroundColor = useColorModeValue(
@@ -63,9 +64,22 @@ const Home = () => {
   useEffect(() => {
     apiClient
       .get<FetchGamesResponse>("/games")
-      .then((res) => setGames(res.data.results))
+      .then((res) => {
+        let sortedGames = res.data.results;
+
+        if (sortOption === "release-date") {
+          sortedGames = sortedGames.sort((game1, game2) => {
+            return (
+              new Date(game1.released).getDate() -
+              new Date(game2.released).getDate()
+            );
+          });
+        }
+
+        setGames(sortedGames);
+      })
       .catch((err) => setError(err.message));
-  }, []);
+  }, [sortOption]);
 
   return (
     <>
@@ -119,6 +133,7 @@ const Home = () => {
                 size={"sm"}
                 borderRadius={"10px"}
                 width={"144px"}
+                onChange={(event) => setSortOption(event.target.value)}
               >
                 <option value="name">Name</option>
                 <option value="release-date">Release date</option>

@@ -1,5 +1,4 @@
-import { Flex, Image, List, ListItem, Spacer, Text } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import apiClient from "../services/api-client";
 import { useEffect, useState } from "react";
 
@@ -7,6 +6,7 @@ interface Genre {
   id: number;
   name: string;
   image_background: string;
+  games_count: number;
 }
 
 interface FetchGenreResponse {
@@ -48,7 +48,7 @@ const SideBar = () => {
                 src={genre.image_background}
                 objectFit={"cover"}
               />
-              <Text marginLeft={2}>{genre.name}</Text>
+              <Text marginLeft={4}>{genre.name}</Text>
             </Flex>
           </ListItem>
         ))}
