@@ -1,4 +1,3 @@
-import { Search2Icon } from "@chakra-ui/icons";
 import {
   Flex,
   HStack,
@@ -6,15 +5,12 @@ import {
   Spacer,
   StackItem,
   Text,
-  useColorModeValue,
-  Input,
-  InputGroup,
-  InputLeftElement,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
+import SearchBox from "../components/SearchBox";
 
 interface Platform {
   id: number;
@@ -46,17 +42,6 @@ const Action = () => {
 
   const sortOptions = ["random", "name", "release-date", "rating"];
   const selectPlatformOptions = ["all", "pc", "xbox", "playstation", "linux"];
-
-  const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
-
-  const searchBoxTextColor = useColorModeValue(
-    "blackAlpha.600",
-    "whiteAlpha.600"
-  );
-  const searchBoxBackgroundColor = useColorModeValue(
-    "blackAlpha.200",
-    "blackAlpha.300"
-  );
 
   const dateMergeSort = (array: Game[]): Game[] => {
     if (array.length <= 1) {
@@ -196,25 +181,10 @@ const Action = () => {
             Action
           </Text>
           <Spacer />
-
-          <InputGroup width={"50%"} marginRight={2}>
-            <InputLeftElement pointerEvents={"none"}>
-              <Search2Icon color={textColor} />
-            </InputLeftElement>
-            <Input
-              type="text"
-              onChange={(userInput) => {
-                setSearchInput(userInput.target.value);
-              }}
-              value={searchInput}
-              placeholder="search..."
-              _placeholder={{ color: searchBoxTextColor }}
-              size={"lg"}
-              background={searchBoxBackgroundColor}
-              color={searchBoxTextColor}
-              border={"none"}
-            />
-          </InputGroup>
+          <SearchBox
+            setSearchInput={setSearchInput}
+            searchInput={searchInput}
+          />
         </Flex>
         <HStack marginTop={4} textAlign={"center"}>
           <StackItem marginRight={2}>

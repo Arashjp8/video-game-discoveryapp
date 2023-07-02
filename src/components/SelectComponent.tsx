@@ -6,11 +6,6 @@ interface selectComponentProps {
   options: string[];
 }
 
-// interface Options {
-//   sortOptions?: string[];
-//   selectPlatformOptions?: string[];
-// }
-
 const SelectComponent = ({
   setSortOption,
   setPlatformSelection,
