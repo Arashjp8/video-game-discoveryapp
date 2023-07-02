@@ -4,6 +4,7 @@ import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
 import apiClient from "./services/api-client";
 import { useEffect, useState } from "react";
+import useSort from "./hooks/useSort";
 
 interface Platform {
   id: number;
@@ -50,113 +51,23 @@ function App() {
 
   useEffect(() => {
     apiClient
-      .get<FetchGamesResponse>("/games")
-      .then((res) => {
-        let sortedGames = res.data.results;
-
-        if (sortOption === "release-date") {
-          sortedGames = dateMergeSort(sortedGames);
-        }
-
-        if (sortOption === "name") {
-          sortedGames = nameQuickSort(sortedGames);
-        }
-
-        if (sortOption === "rating") {
-          sortedGames = ratingQuickSort(sortedGames);
-        }
-
-        setGames(sortedGames);
-      })
-      .catch((err) => setError(err.message));
-  }, [sortOption]);
-
-  useEffect(() => {
-    apiClient
       .get<FetchGenreResponse>("/genres")
       .then((res) => setGenres(res.data.results))
       .catch((err) => setGenreError(err.message));
   }, []);
 
-  const dateMergeSort = (array: Game[]): Game[] => {
-    if (array.length <= 1) {
-      return array;
-    }
+  useEffect(() => {
+    apiClient
+      .get<FetchGamesResponse>("/games")
+      .then((res) => {
+        let sortedGames = res.data.results;
 
-    const middle = Math.floor(array.length / 2);
-    const left = array.slice(0, middle);
-    const right = array.slice(middle);
+        sortedGames = useSort(sortedGames, sortOption);
 
-    const merge = (left: Game[], right: Game[]) => {
-      let result = [];
-      let i = 0;
-      let j = 0;
-
-      while (i < left.length && j < right.length) {
-        if (new Date(left[i].released) > new Date(right[j].released)) {
-          result.push(left[i]);
-          i++;
-        } else {
-          result.push(right[j]);
-          j++;
-        }
-      }
-
-      while (i < left.length) {
-        result.push(left[i]);
-        i++;
-      }
-
-      while (j < right.length) {
-        result.push(right[j]);
-        j++;
-      }
-
-      return result;
-    };
-
-    return merge(dateMergeSort(left), dateMergeSort(right));
-  };
-
-  const nameQuickSort = (array: Game[]): Game[] => {
-    if (array.length <= 1) {
-      return array;
-    }
-
-    const pivot = array[Math.floor(array.length / 2)];
-    const left: Game[] = [];
-    const right: Game[] = [];
-
-    for (let i = 0; i < array.length; i++) {
-      if (array[i].name < pivot.name) {
-        left.push(array[i]);
-      } else if (array[i].name > pivot.name) {
-        right.push(array[i]);
-      }
-    }
-
-    return [...nameQuickSort(left), pivot, ...nameQuickSort(right)];
-  };
-
-  const ratingQuickSort = (array: Game[]): Game[] => {
-    if (array.length <= 1) {
-      return array;
-    }
-
-    const pivot = array[Math.floor(array.length / 2)];
-    const left: Game[] = [];
-    const right: Game[] = [];
-
-    for (let i = 0; i < array.length; i++) {
-      if (array[i].rating > pivot.rating) {
-        left.push(array[i]);
-      } else if (array[i].rating < pivot.rating) {
-        right.push(array[i]);
-      }
-    }
-
-    return [...ratingQuickSort(left), pivot, ...ratingQuickSort(right)];
-  };
+        setGames(sortedGames);
+      })
+      .catch((err) => setError(err.message));
+  }, [sortOption]);
 
   return (
     <>
