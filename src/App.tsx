@@ -1,4 +1,4 @@
-import Action from "./pages/Action";
+import Main from "./pages/Main";
 import NavBar from "./components/NavBar";
 import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
@@ -65,7 +65,7 @@ function App() {
           padding={"40px"}
         >
           <NavBar games={games} setFilteredGames={setFilteredGames} />
-          <Action
+          <Main
             games={games}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}

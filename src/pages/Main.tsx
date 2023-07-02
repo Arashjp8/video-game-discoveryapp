@@ -4,7 +4,7 @@ import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
 import Game from "../interfaces/Game";
 
-interface ActionProps {
+interface MainProps {
   games: Game[];
   filteredGames: Game[];
   setFilteredGames: (value: Game[]) => void;
@@ -13,14 +13,14 @@ interface ActionProps {
   heading: string;
 }
 
-const Action = ({
+const Main = ({
   games,
   filteredGames,
   setFilteredGames,
   error,
   setSortOption,
   heading,
-}: ActionProps) => {
+}: MainProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
   const sortOptions = ["random", "name", "release-date", "rating"];
@@ -80,4 +80,4 @@ const Action = ({
   );
 };
 
-export default Action;
+export default Main;
