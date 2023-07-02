@@ -27,6 +27,7 @@ interface FetchGamesResponse {
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [sortOption, setSortOption] = useState("");
 
@@ -153,8 +154,14 @@ function App() {
           color={textColor}
           padding={"40px"}
         >
-          <NavBar />
-          <Action games={games} error={error} setSortOption={setSortOption} />
+          <NavBar games={games} setFilteredGames={setFilteredGames} />
+          <Action
+            games={games}
+            filteredGames={filteredGames}
+            setFilteredGames={setFilteredGames}
+            error={error}
+            setSortOption={setSortOption}
+          />
         </GridItem>
       </Grid>
     </>

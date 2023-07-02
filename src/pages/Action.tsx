@@ -1,15 +1,7 @@
-import {
-  Flex,
-  HStack,
-  SimpleGrid,
-  Spacer,
-  StackItem,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, HStack, SimpleGrid, StackItem, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
-import SearchBox from "../components/SearchBox";
 
 interface Platform {
   id: number;
@@ -28,28 +20,23 @@ interface Game {
 
 interface ActionProps {
   games: Game[];
+  filteredGames: Game[];
+  setFilteredGames: (value: Game[]) => void;
   error: string;
   setSortOption: (value: string) => void;
 }
 
-const Action = ({ games, error, setSortOption }: ActionProps) => {
-  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
-  const [searchInput, setSearchInput] = useState("");
+const Action = ({
+  games,
+  filteredGames,
+  setFilteredGames,
+  error,
+  setSortOption,
+}: ActionProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
   const sortOptions = ["random", "name", "release-date", "rating"];
   const selectPlatformOptions = ["all", "pc", "xbox", "playstation", "linux"];
-
-  useEffect(() => {
-    if (searchInput.length === 0) {
-      setFilteredGames(games);
-    } else {
-      let filtered: Game[] = games.filter((game) =>
-        game.name.toLowerCase().includes(searchInput.toLowerCase())
-      );
-      setFilteredGames(filtered);
-    }
-  }, [searchInput, games]);
 
   useEffect(() => {
     if (platformSelection !== "all") {
@@ -74,11 +61,6 @@ const Action = ({ games, error, setSortOption }: ActionProps) => {
           <Text fontSize={"4xl"} fontWeight={"700"}>
             Action
           </Text>
-          <Spacer />
-          <SearchBox
-            setSearchInput={setSearchInput}
-            searchInput={searchInput}
-          />
         </Flex>
         <HStack marginTop={4} textAlign={"center"}>
           <StackItem marginRight={2}>

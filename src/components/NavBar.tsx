@@ -9,11 +9,44 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import SearchBox from "./SearchBox";
 
-const NavBar = () => {
+interface Platform {
+  id: number;
+  name: string;
+  image_background: string;
+}
+
+interface Game {
+  id: number;
+  name: string;
+  rating: number;
+  background_image: string;
+  released: string;
+  parent_platforms: { platform: Platform }[];
+}
+
+interface NavBarProps {
+  games: Game[];
+  setFilteredGames: (value: Game[]) => void;
+}
+
+const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
   const { toggleColorMode, colorMode } = useColorMode();
+  const [searchInput, setSearchInput] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
+
+  useEffect(() => {
+    if (searchInput.length === 0) {
+      setFilteredGames(games);
+    } else {
+      let filtered: Game[] = games.filter((game) =>
+        game.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      setFilteredGames(filtered);
+    }
+  }, [searchInput, games]);
 
   return (
     <Flex
@@ -28,8 +61,10 @@ const NavBar = () => {
       </Text>
       <Spacer />
 
+      <SearchBox setSearchInput={setSearchInput} searchInput={searchInput} />
+
+      <Spacer />
       <HStack spacing={"20px"}>
-        <Spacer />
         <Switch
           isChecked={colorMode === "dark"}
           onChange={toggleColorMode}
