@@ -2,7 +2,6 @@ import { Search2Icon } from "@chakra-ui/icons";
 import {
   Flex,
   HStack,
-  Select,
   SimpleGrid,
   Spacer,
   StackItem,
@@ -15,6 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import CardComponent from "../components/CardComponent";
+import SelectComponent from "../components/SelectComponent";
 
 interface Platform {
   id: number;
@@ -44,12 +44,10 @@ const Action = () => {
   const [sortOption, setSortOption] = useState("");
   const [platformSelection, setPlatformSelection] = useState("");
 
+  const sortOptions = ["random", "name", "release-date", "rating"];
+  const selectPlatformOptions = ["all", "pc", "xbox", "playstation", "linux"];
+
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
-  const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
-  const selectBackgroundColor = useColorModeValue(
-    "blackAlpha.200",
-    "blackAlpha.300"
-  );
 
   const searchBoxTextColor = useColorModeValue(
     "blackAlpha.600",
@@ -59,13 +57,6 @@ const Action = () => {
     "blackAlpha.200",
     "blackAlpha.300"
   );
-
-  const selectStyles = {
-    ":hover": {
-      color: "whiteAlpha.400",
-      backgroundColor: "blackAlpha.500",
-    },
-  };
 
   const dateMergeSort = (array: Game[]): Game[] => {
     if (array.length <= 1) {
@@ -229,44 +220,19 @@ const Action = () => {
           <StackItem marginRight={2}>
             <HStack>
               <Text marginRight={1}>Order by:</Text>
-              <Select
-                sx={selectStyles}
-                variant={"filled"}
-                color={selectTextColor}
-                backgroundColor={selectBackgroundColor}
-                size={"sm"}
-                borderRadius={"10px"}
-                width={"144px"}
-                onChange={(event) => setSortOption(event.target.value)}
-              >
-                <option defaultValue="random">Random</option>
-                <option value="name">Name</option>
-                <option value="release-date">Release date</option>
-                <option value="rating">Rating</option>
-              </Select>
+              <SelectComponent
+                setSortOption={setSortOption}
+                options={sortOptions}
+              />
             </HStack>
           </StackItem>
           <StackItem marginRight={2}>
             <HStack>
               <Text marginRight={1}>Platforms:</Text>
-              <Select
-                sx={selectStyles}
-                variant={"filled"}
-                color={selectTextColor}
-                backgroundColor={selectBackgroundColor}
-                size={"sm"}
-                borderRadius={"10px"}
-                width={"144px"}
-                onChange={(userInput) =>
-                  setPlatformSelection(userInput.target.value)
-                }
-              >
-                <option value="all">All</option>
-                <option value="pc">PC</option>
-                <option value="xbox">Xbox</option>
-                <option value="playstation">Playstation</option>
-                <option value="linux">Linux</option>
-              </Select>
+              <SelectComponent
+                setPlatformSelection={setPlatformSelection}
+                options={selectPlatformOptions}
+              />
             </HStack>
           </StackItem>
         </HStack>
