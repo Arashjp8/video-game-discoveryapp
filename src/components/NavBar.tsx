@@ -23,7 +23,7 @@ const NavBar = () => {
       gap={"10px"}
       alignItems={"center"}
     >
-      <NavLink to={"/"}>
+      <NavLink to={"/action"}>
         <Text as={"h2"} fontSize={"2xl"} color={textColor}>
           LOGO
         </Text>

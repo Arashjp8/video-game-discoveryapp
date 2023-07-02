@@ -8,12 +8,12 @@ import {
 import RootLayout from "./layouts/RootLayout";
 import Reviews from "./pages/Reviews";
 import NewReleases from "./pages/NewReleases";
-import Home from "./pages/Home";
+import Action from "./pages/Action";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
+      <Route path="action" index element={<Action />} />
       <Route path="reviews" element={<Reviews />} />
       <Route path="newreleases" element={<NewReleases />} />
     </Route>

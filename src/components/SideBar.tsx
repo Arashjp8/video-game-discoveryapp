@@ -1,6 +1,7 @@
 import { Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import apiClient from "../services/api-client";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 interface Genre {
   id: number;
@@ -40,16 +41,18 @@ const SideBar = () => {
       {genres &&
         genres.map((genre) => (
           <ListItem key={genre.id} cursor={"pointer"}>
-            <Flex justifyContent={"flex-start"} alignItems={"center"}>
-              <Image
-                height={"50px"}
-                width={"50px"}
-                borderRadius={"10px"}
-                src={genre.image_background}
-                objectFit={"cover"}
-              />
-              <Text marginLeft={4}>{genre.name}</Text>
-            </Flex>
+            <NavLink to={`/${genre.name}`}>
+              <Flex justifyContent={"flex-start"} alignItems={"center"}>
+                <Image
+                  height={"50px"}
+                  width={"50px"}
+                  borderRadius={"10px"}
+                  src={genre.image_background}
+                  objectFit={"cover"}
+                />
+                <Text marginLeft={4}>{genre.name}</Text>
+              </Flex>
+            </NavLink>
           </ListItem>
         ))}
     </List>

@@ -1,9 +1,7 @@
 import { Search2Icon } from "@chakra-ui/icons";
 import {
-  Card,
   Flex,
   HStack,
-  Image,
   Select,
   SimpleGrid,
   Spacer,
@@ -16,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import CardComponent from "../components/CardComponent";
 
 interface Platform {
   id: number;
@@ -37,23 +36,21 @@ interface FetchGamesResponse {
   results: Game[];
 }
 
-const Home = () => {
+const Action = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [platformSelection, setPlatformSelection] = useState("");
+
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const selectTextColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
   const selectBackgroundColor = useColorModeValue(
     "blackAlpha.200",
     "blackAlpha.300"
   );
-  const cardBackgroundColor = useColorModeValue(
-    "blackAlpha.200",
-    "whiteAlpha.100"
-  );
+
   const searchBoxTextColor = useColorModeValue(
     "blackAlpha.600",
     "whiteAlpha.600"
@@ -185,7 +182,6 @@ const Home = () => {
   }, [searchInput, games]);
 
   useEffect(() => {
-    console.log(platformSelection);
     if (platformSelection !== "all") {
       let filtered: Game[] = games.filter((game) =>
         game.parent_platforms.some(
@@ -206,7 +202,7 @@ const Home = () => {
       <Flex flexDirection={"column"}>
         <Flex>
           <Text fontSize={"4xl"} fontWeight={"700"}>
-            HOME
+            Action
           </Text>
           <Spacer />
 
@@ -280,41 +276,11 @@ const Home = () => {
         {error && <Text>{error}</Text>}
         {filteredGames &&
           filteredGames.map((game) => (
-            <Card
-              key={game.id}
-              backgroundColor={cardBackgroundColor}
-              color={textColor}
-              textAlign={"center"}
-              borderRadius={"20px"}
-              cursor={"pointer"}
-              paddingBottom={2}
-            >
-              <Flex flexDirection={"column"}>
-                <Image
-                  height={"300px"}
-                  objectFit={"cover"}
-                  src={game.background_image}
-                  borderRadius={"20px"}
-                />
-                <Text margin={2} fontSize={"2xl"} fontWeight={"bold"}>
-                  {game.name}
-                </Text>
-                <Spacer />
-                <Text fontSize={"large"}>Rating: {game.rating}</Text>
-                <Spacer />
-                <Text fontSize={"large"}>Released: {game.released}</Text>
-                <Spacer />
-                <Text>
-                  {game.parent_platforms
-                    .map((platform) => platform.platform.name)
-                    .join(", ")}
-                </Text>
-              </Flex>
-            </Card>
+            <CardComponent key={game.id} game={game} />
           ))}
       </SimpleGrid>
     </>
   );
 };
 
-export default Home;
+export default Action;
