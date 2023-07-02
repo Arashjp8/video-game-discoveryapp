@@ -8,9 +8,17 @@ interface SideBarProps {
   error: string;
   games: Game[];
   setFilteredGames: (value: Game[]) => void;
+  heading: string;
+  setHeading: (value: string) => void;
 }
 
-const SideBar = ({ genres, error, games, setFilteredGames }: SideBarProps) => {
+const SideBar = ({
+  genres,
+  error,
+  games,
+  setFilteredGames,
+  setHeading,
+}: SideBarProps) => {
   const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
@@ -18,6 +26,7 @@ const SideBar = ({ genres, error, games, setFilteredGames }: SideBarProps) => {
       game.genres.some((genre) => genre.name === genreName)
     );
     setFilteredGames(filtered);
+    setHeading(genreName);
   }, [genreName, games]);
 
   return (

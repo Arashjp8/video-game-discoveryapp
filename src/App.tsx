@@ -17,6 +17,7 @@ function App() {
   const [sortOption, setSortOption] = useState("");
   const [genres, setGenres] = useState<Genre[]>([]);
   const [genreError, setGenreError] = useState("");
+  const [heading, setHeading] = useState("");
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
@@ -32,9 +33,7 @@ function App() {
       .get<FetchGamesResponse>("/games")
       .then((res) => {
         let sortedGames = res.data.results;
-
         sortedGames = useSort(sortedGames, sortOption);
-
         setGames(sortedGames);
       })
       .catch((err) => setError(err.message));
@@ -55,6 +54,8 @@ function App() {
             error={genreError}
             games={games}
             setFilteredGames={setFilteredGames}
+            heading={heading}
+            setHeading={setHeading}
           />
         </GridItem>
         <GridItem
@@ -70,6 +71,7 @@ function App() {
             setFilteredGames={setFilteredGames}
             error={error}
             setSortOption={setSortOption}
+            heading={heading}
           />
         </GridItem>
       </Grid>

@@ -10,6 +10,7 @@ interface ActionProps {
   setFilteredGames: (value: Game[]) => void;
   error: string;
   setSortOption: (value: string) => void;
+  heading: string;
 }
 
 const Action = ({
@@ -18,6 +19,7 @@ const Action = ({
   setFilteredGames,
   error,
   setSortOption,
+  heading,
 }: ActionProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
@@ -42,11 +44,9 @@ const Action = ({
   return (
     <>
       <Flex flexDirection={"column"}>
-        <Flex>
-          <Text fontSize={"4xl"} fontWeight={"700"}>
-            Action
-          </Text>
-        </Flex>
+        <Text fontSize={"4xl"} fontWeight={"700"}>
+          {heading}
+        </Text>
         <HStack marginTop={4} textAlign={"center"}>
           <StackItem marginRight={2}>
             <HStack>
