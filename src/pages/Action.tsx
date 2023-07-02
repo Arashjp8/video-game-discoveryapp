@@ -16,6 +16,14 @@ interface Game {
   background_image: string;
   released: string;
   parent_platforms: { platform: Platform }[];
+  genres: Genre[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+  image_background: string;
+  games_count: number;
 }
 
 interface ActionProps {
@@ -51,7 +59,6 @@ const Action = ({
     } else {
       setFilteredGames(games);
     }
-    console.log(filteredGames);
   }, [platformSelection]);
 
   return (

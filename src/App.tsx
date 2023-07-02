@@ -18,6 +18,7 @@ interface Game {
   background_image: string;
   released: string;
   parent_platforms: { platform: Platform }[];
+  genres: Genre[];
 }
 
 interface FetchGamesResponse {
@@ -25,13 +26,57 @@ interface FetchGamesResponse {
   results: Game[];
 }
 
+interface Genre {
+  id: number;
+  name: string;
+  image_background: string;
+  games_count: number;
+}
+
+interface FetchGenreResponse {
+  count: number;
+  results: Genre[];
+}
+
 function App() {
   const [games, setGames] = useState<Game[]>([]);
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [genreError, setGenreError] = useState("");
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
+
+  useEffect(() => {
+    apiClient
+      .get<FetchGamesResponse>("/games")
+      .then((res) => {
+        let sortedGames = res.data.results;
+
+        if (sortOption === "release-date") {
+          sortedGames = dateMergeSort(sortedGames);
+        }
+
+        if (sortOption === "name") {
+          sortedGames = nameQuickSort(sortedGames);
+        }
+
+        if (sortOption === "rating") {
+          sortedGames = ratingQuickSort(sortedGames);
+        }
+
+        setGames(sortedGames);
+      })
+      .catch((err) => setError(err.message));
+  }, [sortOption]);
+
+  useEffect(() => {
+    apiClient
+      .get<FetchGenreResponse>("/genres")
+      .then((res) => setGenres(res.data.results))
+      .catch((err) => setGenreError(err.message));
+  }, []);
 
   const dateMergeSort = (array: Game[]): Game[] => {
     if (array.length <= 1) {
@@ -113,29 +158,6 @@ function App() {
     return [...ratingQuickSort(left), pivot, ...ratingQuickSort(right)];
   };
 
-  useEffect(() => {
-    apiClient
-      .get<FetchGamesResponse>("/games")
-      .then((res) => {
-        let sortedGames = res.data.results;
-
-        if (sortOption === "release-date") {
-          sortedGames = dateMergeSort(sortedGames);
-        }
-
-        if (sortOption === "name") {
-          sortedGames = nameQuickSort(sortedGames);
-        }
-
-        if (sortOption === "rating") {
-          sortedGames = ratingQuickSort(sortedGames);
-        }
-
-        setGames(sortedGames);
-      })
-      .catch((err) => setError(err.message));
-  }, [sortOption]);
-
   return (
     <>
       <Grid templateColumns={"repeat(6, 1fr)"}>
@@ -146,7 +168,12 @@ function App() {
           color={textColor}
           padding={{ base: "20px", lg: "30px" }}
         >
-          <SideBar />
+          <SideBar
+            genres={genres}
+            error={genreError}
+            games={games}
+            setFilteredGames={setFilteredGames}
+          />
         </GridItem>
         <GridItem
           as={"main"}

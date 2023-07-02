@@ -20,6 +20,14 @@ interface Game {
   background_image: string;
   released: string;
   parent_platforms: { platform: Platform }[];
+  genres: Genre[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+  image_background: string;
+  games_count: number;
 }
 
 const CardComponent = ({ game }: { game: Game }) => {
