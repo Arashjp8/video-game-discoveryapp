@@ -5,39 +5,10 @@ import SideBar from "./components/SideBar";
 import apiClient from "./services/api-client";
 import { useEffect, useState } from "react";
 import useSort from "./hooks/useSort";
-
-interface Platform {
-  id: number;
-  name: string;
-  image_background: string;
-}
-
-interface Game {
-  id: number;
-  name: string;
-  rating: number;
-  background_image: string;
-  released: string;
-  parent_platforms: { platform: Platform }[];
-  genres: Genre[];
-}
-
-interface FetchGamesResponse {
-  count: number;
-  results: Game[];
-}
-
-interface Genre {
-  id: number;
-  name: string;
-  image_background: string;
-  games_count: number;
-}
-
-interface FetchGenreResponse {
-  count: number;
-  results: Genre[];
-}
+import Game from "./interfaces/Game";
+import FetchGamesResponse from "./interfaces/FetchGameResponse";
+import Genre from "./interfaces/Genre";
+import FetchGenreResponse from "./interfaces/FetchGenreResponse";
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);

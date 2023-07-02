@@ -2,29 +2,7 @@ import { Flex, HStack, SimpleGrid, StackItem, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
-
-interface Platform {
-  id: number;
-  name: string;
-  image_background: string;
-}
-
-interface Game {
-  id: number;
-  name: string;
-  rating: number;
-  background_image: string;
-  released: string;
-  parent_platforms: { platform: Platform }[];
-  genres: Genre[];
-}
-
-interface Genre {
-  id: number;
-  name: string;
-  image_background: string;
-  games_count: number;
-}
+import Game from "../interfaces/Game";
 
 interface ActionProps {
   games: Game[];
