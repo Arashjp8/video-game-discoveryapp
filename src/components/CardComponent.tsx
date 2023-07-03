@@ -5,8 +5,21 @@ import {
   Text,
   Spacer,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 import Game from "../interfaces/Game";
+import {
+  FaWindows,
+  FaPlaystation,
+  FaXbox,
+  FaApple,
+  FaLinux,
+  FaAndroid,
+} from "react-icons/fa";
+import { MdPhoneIphone } from "react-icons/md";
+import { SiNintendo } from "react-icons/si";
+import { BsGlobe } from "react-icons/bs";
+import { IconType } from "react-icons";
 
 const CardComponent = ({ game }: { game: Game }) => {
   const cardBackgroundColor = useColorModeValue(
@@ -14,6 +27,18 @@ const CardComponent = ({ game }: { game: Game }) => {
     "whiteAlpha.100"
   );
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
+
+  const iconMap: { [key: string]: IconType } = {
+    pc: FaWindows,
+    playstation: FaPlaystation,
+    xbox: FaXbox,
+    nintendo: SiNintendo,
+    mac: FaApple,
+    linux: FaLinux,
+    android: FaAndroid,
+    ios: MdPhoneIphone,
+    web: BsGlobe,
+  };
 
   return (
     <>
@@ -41,9 +66,13 @@ const CardComponent = ({ game }: { game: Game }) => {
           <Text fontSize={"large"}>Released: {game.released}</Text>
           <Spacer />
           <Text>
-            {game.parent_platforms
-              .map((platform) => platform.platform.name)
-              .join(", ")}
+            {game.parent_platforms.map((platform) => (
+              <Icon
+                key={platform.platform.id}
+                as={iconMap[platform.platform.slug]}
+                margin={1}
+              />
+            ))}
           </Text>
         </Flex>
       </Card>
