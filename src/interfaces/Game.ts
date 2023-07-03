@@ -9,4 +9,5 @@ export default interface Game {
   released: string;
   parent_platforms: { platform: Platform }[];
   genres: Genre[];
+  metacritic: number;
 }

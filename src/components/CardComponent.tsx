@@ -40,6 +40,8 @@ const CardComponent = ({ game }: { game: Game }) => {
     web: BsGlobe,
   };
 
+  const metacriticColor = game.metacritic > 85 ? "green.500" : "red.500";
+
   return (
     <>
       <Card
@@ -57,23 +59,41 @@ const CardComponent = ({ game }: { game: Game }) => {
             src={game.background_image}
             borderRadius={"20px"}
           />
-          <Text margin={2} fontSize={"2xl"} fontWeight={"bold"}>
-            {game.name}
-          </Text>
-          <Spacer />
-          <Text fontSize={"large"}>Rating: {game.rating}</Text>
-          <Spacer />
-          <Text fontSize={"large"}>Released: {game.released}</Text>
-          <Spacer />
-          <Text>
-            {game.parent_platforms.map((platform) => (
-              <Icon
-                key={platform.platform.id}
-                as={iconMap[platform.platform.slug]}
-                margin={1}
-              />
-            ))}
-          </Text>
+          <Flex
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            margin={2}
+          >
+            <Text>
+              {game.parent_platforms.map((platform) => (
+                <Icon
+                  key={platform.platform.id}
+                  as={iconMap[platform.platform.slug]}
+                  margin={1}
+                  fontSize={"large"}
+                />
+              ))}
+            </Text>
+            <Spacer />
+            <Text
+              border={"1px solid"}
+              borderColor={metacriticColor}
+              color={metacriticColor}
+              paddingLeft={2}
+              paddingRight={2}
+              borderRadius={"10px"}
+              fontSize={"large"}
+            >
+              {" "}
+              {game.metacritic}
+            </Text>
+          </Flex>
+          <Flex marginLeft={2}>
+            <Text fontSize={"3xl"} fontWeight={"semibold"}>
+              {game.name}
+            </Text>
+          </Flex>
         </Flex>
       </Card>
     </>
