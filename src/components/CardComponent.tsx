@@ -1,25 +1,14 @@
 import {
   Card,
-  Flex,
   Image,
-  Text,
-  Spacer,
   useColorModeValue,
-  Icon,
+  CardBody,
+  Heading,
+  HStack,
 } from "@chakra-ui/react";
 import Game from "../interfaces/Game";
-import {
-  FaWindows,
-  FaPlaystation,
-  FaXbox,
-  FaApple,
-  FaLinux,
-  FaAndroid,
-} from "react-icons/fa";
-import { MdPhoneIphone } from "react-icons/md";
-import { SiNintendo } from "react-icons/si";
-import { BsGlobe } from "react-icons/bs";
-import { IconType } from "react-icons";
+import CriticScore from "./CriticScore";
+import PlatformIconList from "./PlatformIconList";
 
 const CardComponent = ({ game }: { game: Game }) => {
   const cardBackgroundColor = useColorModeValue(
@@ -28,31 +17,31 @@ const CardComponent = ({ game }: { game: Game }) => {
   );
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
-  const iconMap: { [key: string]: IconType } = {
-    pc: FaWindows,
-    playstation: FaPlaystation,
-    xbox: FaXbox,
-    nintendo: SiNintendo,
-    mac: FaApple,
-    linux: FaLinux,
-    android: FaAndroid,
-    ios: MdPhoneIphone,
-    web: BsGlobe,
-  };
-
-  const metacriticColor = game.metacritic > 85 ? "green.500" : "red.500";
-
   return (
     <>
       <Card
         backgroundColor={cardBackgroundColor}
         color={textColor}
-        textAlign={"center"}
         borderRadius={"20px"}
+        overflow={"hidden"}
         cursor={"pointer"}
         paddingBottom={2}
       >
-        <Flex flexDirection={"column"}>
+        <Image
+          height={"300px"}
+          objectFit={"cover"}
+          src={game.background_image}
+        />
+        <CardBody>
+          <Heading fontSize={"2xl"}>{game.name}</Heading>
+          <HStack justifyContent={"space-between"}>
+            <PlatformIconList
+              platforms={game.parent_platforms?.map((p) => p.platform)}
+            />
+            <CriticScore score={game.metacritic} />
+          </HStack>
+        </CardBody>
+        {/* <Flex flexDirection={"column"}>
           <Image
             height={"300px"}
             objectFit={"cover"}
@@ -94,7 +83,7 @@ const CardComponent = ({ game }: { game: Game }) => {
               {game.name}
             </Text>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Card>
     </>
   );
