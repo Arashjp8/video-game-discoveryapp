@@ -4,6 +4,7 @@ import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
 import Game from "../interfaces/Game";
 import GameCardSkeleton from "../components/GameCardSkeleton";
+import GameCardContainer from "../components/CardContainer";
 
 interface MainProps {
   games: Game[];
@@ -81,10 +82,16 @@ const Main = ({
       >
         {error && <Text>{error}</Text>}
         {isLoading &&
-          skeletons.map((skeleton) => <GameCardSkeleton key={skeleton} />)}
+          skeletons.map((skeleton) => (
+            <GameCardContainer key={skeleton}>
+              <GameCardSkeleton />
+            </GameCardContainer>
+          ))}
         {filteredGames &&
           filteredGames.map((game) => (
-            <CardComponent key={game.id} game={game} />
+            <GameCardContainer key={game.id}>
+              <CardComponent game={game} />
+            </GameCardContainer>
           ))}
       </SimpleGrid>
     </>
