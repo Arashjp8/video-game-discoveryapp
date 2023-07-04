@@ -1,17 +1,16 @@
-import Main from "./pages/Main";
+import Main from "./components/GameGridContainer";
 import NavBar from "./components/NavBar";
 import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
 import { useState } from "react";
 import Game from "./interfaces/Game";
 import useGames from "./hooks/useGames";
-import useGenres from "./hooks/useGenres";
+import GameGrid from "./components/GameGrid";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
   const { games, error, isLoading } = useGames({ sortOption });
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
-  const { genres, genreError } = useGenres();
   const [heading, setHeading] = useState("");
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
@@ -31,8 +30,6 @@ function App() {
             color={textColor}
           >
             <SideBar
-              genres={genres}
-              error={genreError}
               games={games}
               setFilteredGames={setFilteredGames}
               heading={heading}
@@ -43,13 +40,17 @@ function App() {
         <GridItem area={"main"} color={textColor} marginRight={5}>
           <Main
             games={games}
-            error={error}
-            isLoading={isLoading}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
             setSortOption={setSortOption}
             heading={heading}
-          />
+          >
+            <GameGrid
+              error={error}
+              isLoading={isLoading}
+              filteredGames={filteredGames}
+            />
+          </Main>
         </GridItem>
       </Grid>
     </>

@@ -1,27 +1,23 @@
-import { Flex, HStack, StackItem, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import SelectComponent from "../components/SelectComponent";
+import { HStack, StackItem, Text, VStack } from "@chakra-ui/react";
+import { ReactNode, useEffect, useState } from "react";
+import SelectComponent from "./SelectComponent";
 import Game from "../interfaces/Game";
-import GameGrid from "../components/GameGrid";
 
 interface MainProps {
   games: Game[];
-  error: string;
-  isLoading: boolean;
   filteredGames: Game[];
   setFilteredGames: (value: Game[]) => void;
   setSortOption: (value: string) => void;
   heading: string;
+  children: ReactNode;
 }
 
 const Main = ({
   games,
-  error,
-  isLoading,
-  filteredGames,
   setFilteredGames,
   setSortOption,
   heading,
+  children,
 }: MainProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
@@ -45,7 +41,7 @@ const Main = ({
 
   return (
     <>
-      <Flex flexDirection={"column"}>
+      <VStack flexDirection={"column"} alignItems={"flex-start"}>
         <Text fontSize={"4xl"} fontWeight={"700"}>
           {heading}
         </Text>
@@ -69,12 +65,8 @@ const Main = ({
             </HStack>
           </StackItem>
         </HStack>
-      </Flex>
-      <GameGrid
-        error={error}
-        isLoading={isLoading}
-        filteredGames={filteredGames}
-      />
+      </VStack>
+      {children}
     </>
   );
 };

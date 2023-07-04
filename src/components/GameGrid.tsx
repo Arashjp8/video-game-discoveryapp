@@ -3,7 +3,6 @@ import GameCardContainer from "./CardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
 import CardComponent from "./CardComponent";
 import Game from "../interfaces/Game";
-
 interface GameGridProps {
   error: string;
   isLoading: boolean;
@@ -12,6 +11,7 @@ interface GameGridProps {
 
 const GameGrid = ({ error, isLoading, filteredGames }: GameGridProps) => {
   const skeletons = [1, 2, 3, 4, 5, 6];
+
   return (
     <SimpleGrid
       marginTop={5}

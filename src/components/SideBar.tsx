@@ -1,24 +1,17 @@
 import { Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Game from "../interfaces/Game";
-import Genre from "../interfaces/Genre";
+import useGenres from "../hooks/useGenres";
 
 interface SideBarProps {
-  genres: Genre[];
-  error: string;
   games: Game[];
   setFilteredGames: (value: Game[]) => void;
   heading: string;
   setHeading: (value: string) => void;
 }
 
-const SideBar = ({
-  genres,
-  error,
-  games,
-  setFilteredGames,
-  setHeading,
-}: SideBarProps) => {
+const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
+  const { genres, genreError } = useGenres();
   const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
@@ -31,7 +24,7 @@ const SideBar = ({
 
   return (
     <List fontSize={"1.4em"} spacing={4} margin={"20px"}>
-      {error && <Text>{error}</Text>}
+      {genreError && <Text>{genreError}</Text>}
       {genres &&
         genres.map((genre) => (
           <ListItem
