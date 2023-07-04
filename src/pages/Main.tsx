@@ -1,10 +1,8 @@
-import { Flex, HStack, SimpleGrid, StackItem, Text } from "@chakra-ui/react";
+import { Flex, HStack, StackItem, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
 import Game from "../interfaces/Game";
-import GameCardSkeleton from "../components/GameCardSkeleton";
-import GameCardContainer from "../components/CardContainer";
+import GameGrid from "../components/GameGrid";
 
 interface MainProps {
   games: Game[];
@@ -25,7 +23,6 @@ const Main = ({
   setSortOption,
   heading,
 }: MainProps) => {
-  const skeletons = [1, 2, 3, 4, 5, 6];
   const [platformSelection, setPlatformSelection] = useState("");
 
   const sortOptions = ["random", "name", "release-date", "rating"];
@@ -73,27 +70,11 @@ const Main = ({
           </StackItem>
         </HStack>
       </Flex>
-
-      <SimpleGrid
-        marginTop={5}
-        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-        spacing={10}
-        padding={"10px"}
-      >
-        {error && <Text>{error}</Text>}
-        {isLoading &&
-          skeletons.map((skeleton) => (
-            <GameCardContainer key={skeleton}>
-              <GameCardSkeleton />
-            </GameCardContainer>
-          ))}
-        {filteredGames &&
-          filteredGames.map((game) => (
-            <GameCardContainer key={game.id}>
-              <CardComponent game={game} />
-            </GameCardContainer>
-          ))}
-      </SimpleGrid>
+      <GameGrid
+        error={error}
+        isLoading={isLoading}
+        filteredGames={filteredGames}
+      />
     </>
   );
 };
