@@ -10,7 +10,6 @@ interface NavBarProps {
 }
 
 const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
-  // const { toggleColorMode, colorMode } = useColorMode();
   const [searchInput, setSearchInput] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
@@ -28,7 +27,7 @@ const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
   return (
     <Flex
       as={"nav"}
-      padding={"10px"}
+      padding={"20px"}
       marginBottom={"40px"}
       gap={"10px"}
       alignItems={"center"}
@@ -37,9 +36,7 @@ const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
         LOGO
       </Text>
       <Spacer />
-
       <SearchBox setSearchInput={setSearchInput} searchInput={searchInput} />
-
       <Spacer />
       <ColorModeSwitch />
     </Flex>

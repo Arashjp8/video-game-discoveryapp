@@ -4,7 +4,7 @@ import { HStack, Icon, Switch, useColorMode } from "@chakra-ui/react";
 const ColorModeSwitch = () => {
   const { toggleColorMode, colorMode } = useColorMode();
   return (
-    <HStack spacing={"20px"}>
+    <HStack spacing={"15px"}>
       <Switch
         isChecked={colorMode === "dark"}
         onChange={toggleColorMode}

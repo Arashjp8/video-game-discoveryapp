@@ -4,17 +4,15 @@ import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
 import apiClient from "./services/api-client";
 import { useEffect, useState } from "react";
-import useSort from "./hooks/useSort";
 import Game from "./interfaces/Game";
-import FetchGamesResponse from "./interfaces/FetchGameResponse";
 import Genre from "./interfaces/Genre";
 import FetchGenreResponse from "./interfaces/FetchGenreResponse";
+import useGames from "./hooks/useGames";
 
 function App() {
-  const [games, setGames] = useState<Game[]>([]);
-  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
-  const [error, setError] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const { games, error } = useGames({ sortOption });
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [genreError, setGenreError] = useState("");
   const [heading, setHeading] = useState("");
@@ -27,17 +25,6 @@ function App() {
       .then((res) => setGenres(res.data.results))
       .catch((err) => setGenreError(err.message));
   }, []);
-
-  useEffect(() => {
-    apiClient
-      .get<FetchGamesResponse>("/games")
-      .then((res) => {
-        let sortedGames = res.data.results;
-        sortedGames = useSort(sortedGames, sortOption);
-        setGames(sortedGames);
-      })
-      .catch((err) => setError(err.message));
-  }, [sortOption]);
 
   return (
     <>
