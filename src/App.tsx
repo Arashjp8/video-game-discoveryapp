@@ -1,6 +1,6 @@
 import Main from "./pages/Main";
 import NavBar from "./components/NavBar";
-import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
+import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
 import apiClient from "./services/api-client";
 import { useEffect, useState } from "react";
@@ -41,30 +41,36 @@ function App() {
 
   return (
     <>
-      <Grid templateColumns={"repeat(6, 1fr)"}>
-        <GridItem
-          as={"aside"}
-          minHeight={{ lg: "100vh" }}
-          colSpan={{ base: 6, lg: 2, xl: 1 }}
-          color={textColor}
-          padding={{ base: "20px", lg: "30px" }}
-        >
-          <SideBar
-            genres={genres}
-            error={genreError}
-            games={games}
-            setFilteredGames={setFilteredGames}
-            heading={heading}
-            setHeading={setHeading}
-          />
-        </GridItem>
-        <GridItem
-          as={"main"}
-          colSpan={{ base: 6, lg: 4, xl: 5 }}
-          color={textColor}
-          padding={"40px"}
-        >
+      <Grid
+        templateAreas={{ base: `"nav" "main"`, lg: `"nav nav" "aside main"` }}
+      >
+        <GridItem area={"nav"}>
           <NavBar games={games} setFilteredGames={setFilteredGames} />
+        </GridItem>
+        <Show above="lg">
+          <GridItem
+            area={"aside"}
+            minHeight={{ lg: "100vh" }}
+            colSpan={{ base: 6, lg: 2, xl: 1 }}
+            color={textColor}
+            // padding={{ base: "20px", lg: "30px" }}
+          >
+            <SideBar
+              genres={genres}
+              error={genreError}
+              games={games}
+              setFilteredGames={setFilteredGames}
+              heading={heading}
+              setHeading={setHeading}
+            />
+          </GridItem>
+        </Show>
+        <GridItem
+          area={"main"}
+          // colSpan={{ base: 6, lg: 4, xl: 5 }}
+          color={textColor}
+          // padding={"40px"}
+        >
           <Main
             games={games}
             filteredGames={filteredGames}

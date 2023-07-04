@@ -24,7 +24,7 @@ const SearchBox = ({ searchInput, setSearchInput }: SearchBoxProps) => {
 
   return (
     <>
-      <InputGroup width={"100%"} marginRight={2}>
+      <InputGroup width={"100%"} marginRight={5} marginLeft={5}>
         <InputLeftElement pointerEvents={"none"}>
           <Search2Icon color={textColor} />
         </InputLeftElement>

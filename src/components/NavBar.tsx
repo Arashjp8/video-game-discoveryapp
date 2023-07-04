@@ -1,17 +1,8 @@
-import { MoonIcon } from "@chakra-ui/icons";
-import {
-  Flex,
-  HStack,
-  Icon,
-  Spacer,
-  Switch,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Spacer, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import SearchBox from "./SearchBox";
 import Game from "../interfaces/Game";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 interface NavBarProps {
   games: Game[];
@@ -19,7 +10,7 @@ interface NavBarProps {
 }
 
 const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
-  const { toggleColorMode, colorMode } = useColorMode();
+  // const { toggleColorMode, colorMode } = useColorMode();
   const [searchInput, setSearchInput] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
@@ -50,15 +41,7 @@ const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
       <SearchBox setSearchInput={setSearchInput} searchInput={searchInput} />
 
       <Spacer />
-      <HStack spacing={"20px"}>
-        <Switch
-          isChecked={colorMode === "dark"}
-          onChange={toggleColorMode}
-          colorScheme="teal"
-          size={"lg"}
-        />
-        <Icon marginRight={"10px"}>{<MoonIcon />}</Icon>
-      </HStack>
+      <ColorModeSwitch />
     </Flex>
   );
 };
