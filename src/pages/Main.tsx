@@ -3,24 +3,28 @@ import { useEffect, useState } from "react";
 import CardComponent from "../components/CardComponent";
 import SelectComponent from "../components/SelectComponent";
 import Game from "../interfaces/Game";
+import GameCardSkeleton from "../components/GameCardSkeleton";
 
 interface MainProps {
   games: Game[];
+  error: string;
+  isLoading: boolean;
   filteredGames: Game[];
   setFilteredGames: (value: Game[]) => void;
-  error: string;
   setSortOption: (value: string) => void;
   heading: string;
 }
 
 const Main = ({
   games,
+  error,
+  isLoading,
   filteredGames,
   setFilteredGames,
-  error,
   setSortOption,
   heading,
 }: MainProps) => {
+  const skeletons = [1, 2, 3, 4, 5, 6];
   const [platformSelection, setPlatformSelection] = useState("");
 
   const sortOptions = ["random", "name", "release-date", "rating"];
@@ -74,9 +78,10 @@ const Main = ({
         columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
         spacing={10}
         padding={"10px"}
-        minChildWidth={"300px"}
       >
         {error && <Text>{error}</Text>}
+        {isLoading &&
+          skeletons.map((skeleton) => <GameCardSkeleton key={skeleton} />)}
         {filteredGames &&
           filteredGames.map((game) => (
             <CardComponent key={game.id} game={game} />

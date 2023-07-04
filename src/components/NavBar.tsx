@@ -28,7 +28,7 @@ const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
     <Flex
       as={"nav"}
       padding={"20px"}
-      marginBottom={"40px"}
+      marginBottom={"10px"}
       gap={"10px"}
       alignItems={"center"}
     >

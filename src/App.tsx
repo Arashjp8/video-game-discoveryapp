@@ -9,7 +9,7 @@ import useGenres from "./hooks/useGenres";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
-  const { games, error } = useGames({ sortOption });
+  const { games, error, isLoading } = useGames({ sortOption });
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const { genres, genreError } = useGenres();
   const [heading, setHeading] = useState("");
@@ -28,9 +28,7 @@ function App() {
           <GridItem
             area={"aside"}
             minHeight={{ lg: "100vh" }}
-            // colSpan={{ base: 6, lg: 2, xl: 1 }}
             color={textColor}
-            // padding={{ base: "20px", lg: "30px" }}
           >
             <SideBar
               genres={genres}
@@ -42,18 +40,13 @@ function App() {
             />
           </GridItem>
         </Show>
-        <GridItem
-          area={"main"}
-          // colSpan={{ base: 6, lg: 4, xl: 5 }}
-          color={textColor}
-          marginRight={5}
-          // padding={"40px"}
-        >
+        <GridItem area={"main"} color={textColor} marginRight={5}>
           <Main
             games={games}
+            error={error}
+            isLoading={isLoading}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
-            error={error}
             setSortOption={setSortOption}
             heading={heading}
           />
