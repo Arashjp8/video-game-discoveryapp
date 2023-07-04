@@ -8,6 +8,7 @@ import Game from "./interfaces/Game";
 import Genre from "./interfaces/Genre";
 import FetchGenreResponse from "./interfaces/FetchGenreResponse";
 import useGames from "./hooks/useGames";
+import { CanceledError } from "axios";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
@@ -20,10 +21,17 @@ function App() {
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   useEffect(() => {
+    const controller = new AbortController();
+
     apiClient
-      .get<FetchGenreResponse>("/genres")
+      .get<FetchGenreResponse>("/genres", { signal: controller.signal })
       .then((res) => setGenres(res.data.results))
-      .catch((err) => setGenreError(err.message));
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setGenreError(err.message);
+      });
+
+    return () => controller.abort();
   }, []);
 
   return (
