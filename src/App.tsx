@@ -2,37 +2,19 @@ import Main from "./pages/Main";
 import NavBar from "./components/NavBar";
 import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
-import apiClient from "./services/api-client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Game from "./interfaces/Game";
-import Genre from "./interfaces/Genre";
-import FetchGenreResponse from "./interfaces/FetchGenreResponse";
 import useGames from "./hooks/useGames";
-import { CanceledError } from "axios";
+import useGenres from "./hooks/useGenres";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
   const { games, error } = useGames({ sortOption });
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [genreError, setGenreError] = useState("");
+  const { genres, genreError } = useGenres();
   const [heading, setHeading] = useState("");
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    apiClient
-      .get<FetchGenreResponse>("/genres", { signal: controller.signal })
-      .then((res) => setGenres(res.data.results))
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setGenreError(err.message);
-      });
-
-    return () => controller.abort();
-  }, []);
 
   return (
     <>
@@ -46,7 +28,7 @@ function App() {
           <GridItem
             area={"aside"}
             minHeight={{ lg: "100vh" }}
-            colSpan={{ base: 6, lg: 2, xl: 1 }}
+            // colSpan={{ base: 6, lg: 2, xl: 1 }}
             color={textColor}
             // padding={{ base: "20px", lg: "30px" }}
           >
@@ -64,6 +46,7 @@ function App() {
           area={"main"}
           // colSpan={{ base: 6, lg: 4, xl: 5 }}
           color={textColor}
+          marginRight={5}
           // padding={"40px"}
         >
           <Main
