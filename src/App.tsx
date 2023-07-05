@@ -19,6 +19,7 @@ function App() {
     <>
       <Grid
         templateAreas={{ base: `"nav" "main"`, lg: `"nav nav" "aside main"` }}
+        templateColumns={{ base: "1fr", lg: "200px 1fr" }}
       >
         <GridItem area={"nav"}>
           <NavBar games={games} setFilteredGames={setFilteredGames} />
@@ -28,6 +29,7 @@ function App() {
             area={"aside"}
             minHeight={{ lg: "100vh" }}
             color={textColor}
+            paddingX={"20px"}
           >
             <SideBar
               games={games}
@@ -37,7 +39,7 @@ function App() {
             />
           </GridItem>
         </Show>
-        <GridItem area={"main"} color={textColor} marginRight={5}>
+        <GridItem area={"main"} color={textColor} marginX={2}>
           <GameGridContainer
             games={games}
             filteredGames={filteredGames}

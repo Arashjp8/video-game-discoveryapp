@@ -1,7 +1,8 @@
-import { Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
+import { Flex, Image, List, ListItem, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Game from "../interfaces/Game";
 import useGenres from "../hooks/useGenres";
+import getCroppedImageURL from "../services/image-url";
 
 interface SideBarProps {
   games: Game[];
@@ -11,7 +12,7 @@ interface SideBarProps {
 }
 
 const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
-  const { data, error } = useGenres();
+  const { data, error, isLoading } = useGenres();
   const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
@@ -23,8 +24,9 @@ const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
   }, [genreName, games]);
 
   return (
-    <List fontSize={"1.4em"} spacing={4} margin={"20px"}>
+    <List fontSize={"1.4em"} spacing={4}>
       {error && <Text>{error}</Text>}
+      {isLoading && <Spinner />}
       {data &&
         data.map((genre) => (
           <ListItem
@@ -37,10 +39,9 @@ const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
           >
             <Flex justifyContent={"flex-start"} alignItems={"center"}>
               <Image
-                height={"50px"}
-                width={"50px"}
-                borderRadius={"10px"}
-                src={genre.image_background}
+                boxSize="50px"
+                borderRadius={10}
+                src={getCroppedImageURL(genre.image_background)}
                 objectFit={"cover"}
               />
               <Text marginLeft={4}>{genre.name}</Text>
