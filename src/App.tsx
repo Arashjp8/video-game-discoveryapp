@@ -1,4 +1,4 @@
-import Main from "./components/GameGridContainer";
+import GameGridContainer from "./components/GameGridContainer";
 import NavBar from "./components/NavBar";
 import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
@@ -38,7 +38,7 @@ function App() {
           </GridItem>
         </Show>
         <GridItem area={"main"} color={textColor} marginRight={5}>
-          <Main
+          <GameGridContainer
             games={games}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
@@ -50,7 +50,7 @@ function App() {
               isLoading={isLoading}
               filteredGames={filteredGames}
             />
-          </Main>
+          </GameGridContainer>
         </GridItem>
       </Grid>
     </>

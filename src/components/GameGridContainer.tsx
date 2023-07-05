@@ -12,7 +12,7 @@ interface MainProps {
   children: ReactNode;
 }
 
-const Main = ({
+const GameGridContainer = ({
   games,
   setFilteredGames,
   setSortOption,
@@ -71,4 +71,4 @@ const Main = ({
   );
 };
 
-export default Main;
+export default GameGridContainer;

@@ -11,7 +11,7 @@ interface SideBarProps {
 }
 
 const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
-  const { genres, genreError } = useGenres();
+  const { data, error } = useGenres();
   const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
@@ -24,9 +24,9 @@ const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
 
   return (
     <List fontSize={"1.4em"} spacing={4} margin={"20px"}>
-      {genreError && <Text>{genreError}</Text>}
-      {genres &&
-        genres.map((genre) => (
+      {error && <Text>{error}</Text>}
+      {data &&
+        data.map((genre) => (
           <ListItem
             key={genre.id}
             cursor={"pointer"}
