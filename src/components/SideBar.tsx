@@ -3,15 +3,22 @@ import { useEffect, useState } from "react";
 import Game from "../interfaces/Game";
 import useGenres from "../hooks/useGenres";
 import getCroppedImageURL from "../services/image-url";
+import Genre from "../interfaces/Genre";
 
 interface SideBarProps {
   games: Game[];
   setFilteredGames: (value: Game[]) => void;
   heading: string;
   setHeading: (value: string) => void;
+  onSelectGenre: (value: Genre) => void; //* mosh way
 }
 
-const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
+const SideBar = ({
+  games,
+  setFilteredGames,
+  setHeading,
+  onSelectGenre, //* mosh way
+}: SideBarProps) => {
   const { data, error, isLoading } = useGenres();
   const [genreName, setGenreName] = useState("");
 
@@ -23,9 +30,10 @@ const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
     setHeading(genreName);
   }, [genreName, games]);
 
+  if (error) return null;
+
   return (
     <List fontSize={"1.4em"} spacing={4}>
-      {error && <Text>{error}</Text>}
       {isLoading && <Spinner />}
       {data &&
         data.map((genre) => (
@@ -35,6 +43,7 @@ const SideBar = ({ games, setFilteredGames, setHeading }: SideBarProps) => {
             onClick={(event) => {
               event.preventDefault();
               setGenreName(genre.name);
+              onSelectGenre(genre); //* mosh way
             }}
           >
             <Flex justifyContent={"flex-start"} alignItems={"center"}>

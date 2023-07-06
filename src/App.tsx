@@ -1,15 +1,16 @@
-import GameGridContainer from "./components/GameGridContainer";
+import GameGrid from "./components/GameGrid";
 import NavBar from "./components/NavBar";
 import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
 import SideBar from "./components/SideBar";
 import { useState } from "react";
 import Game from "./interfaces/Game";
 import useGames from "./hooks/useGames";
-import GameGrid from "./components/GameGrid";
+import Genre from "./interfaces/Genre";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
-  const { games, error, isLoading } = useGames({ sortOption });
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null); //* mosh way
+  const { data, error, isLoading } = useGames(selectedGenre); // sortOption used to go in there
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [heading, setHeading] = useState("");
 
@@ -22,7 +23,7 @@ function App() {
         templateColumns={{ base: "1fr", lg: "200px 1fr" }}
       >
         <GridItem area={"nav"}>
-          <NavBar games={games} setFilteredGames={setFilteredGames} />
+          <NavBar games={data} setFilteredGames={setFilteredGames} />
         </GridItem>
         <Show above="lg">
           <GridItem
@@ -32,27 +33,25 @@ function App() {
             paddingX={"20px"}
           >
             <SideBar
-              games={games}
+              games={data}
               setFilteredGames={setFilteredGames}
               heading={heading}
               setHeading={setHeading}
+              onSelectGenre={(genre) => setSelectedGenre(genre)}
             />
           </GridItem>
         </Show>
         <GridItem area={"main"} color={textColor} marginX={2}>
-          <GameGridContainer
-            games={games}
+          <GameGrid
+            games={data}
+            error={error}
+            isLoading={isLoading}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
             setSortOption={setSortOption}
             heading={heading}
-          >
-            <GameGrid
-              error={error}
-              isLoading={isLoading}
-              filteredGames={filteredGames}
-            />
-          </GameGridContainer>
+            selectedGenre={selectedGenre}
+          />
         </GridItem>
       </Grid>
     </>
