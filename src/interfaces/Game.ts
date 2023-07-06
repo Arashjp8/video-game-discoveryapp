@@ -10,5 +10,5 @@ export default interface Game {
   genres: Genre[];
   metacritic: number;
   rating_top: number;
-  // rating: number;
+  rating: number;
 }
