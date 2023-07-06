@@ -9,8 +9,8 @@ import Genre from "./interfaces/Genre";
 
 function App() {
   const [sortOption, setSortOption] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null); //* mosh way
-  const { data, error, isLoading } = useGames(selectedGenre); // sortOption used to go in there
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const { games, error, isLoading } = useGames({ sortOption });
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [heading, setHeading] = useState("");
 
@@ -23,7 +23,7 @@ function App() {
         templateColumns={{ base: "1fr", lg: "200px 1fr" }}
       >
         <GridItem area={"nav"}>
-          <NavBar games={data} setFilteredGames={setFilteredGames} />
+          <NavBar games={games} setFilteredGames={setFilteredGames} />
         </GridItem>
         <Show above="lg">
           <GridItem
@@ -33,24 +33,24 @@ function App() {
             paddingX={"20px"}
           >
             <SideBar
-              games={data}
+              games={games}
               setFilteredGames={setFilteredGames}
               heading={heading}
               setHeading={setHeading}
               onSelectGenre={(genre) => setSelectedGenre(genre)}
+              selectedGenre={selectedGenre}
             />
           </GridItem>
         </Show>
         <GridItem area={"main"} color={textColor} marginX={2}>
           <GameGrid
-            games={data}
+            games={games}
             error={error}
             isLoading={isLoading}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
             setSortOption={setSortOption}
             heading={heading}
-            selectedGenre={selectedGenre}
           />
         </GridItem>
       </Grid>

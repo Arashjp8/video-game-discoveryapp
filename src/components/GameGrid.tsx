@@ -2,7 +2,6 @@ import { HStack, SimpleGrid, StackItem, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import SelectComponent from "./SelectComponent";
 import Game from "../interfaces/Game";
-import Genre from "../interfaces/Genre";
 import GameCardContainer from "./CardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
 import CardComponent from "./CardComponent";
@@ -16,7 +15,6 @@ interface GameGridProps {
   setFilteredGames: (value: Game[]) => void;
   setSortOption: (value: string) => void;
   heading: string;
-  selectedGenre: Genre | null;
 }
 
 const GameGrid = ({
@@ -27,7 +25,6 @@ const GameGrid = ({
   setFilteredGames,
   setSortOption,
   heading,
-  selectedGenre,
 }: GameGridProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
@@ -94,8 +91,8 @@ const GameGrid = ({
               <GameCardSkeleton />
             </GameCardContainer>
           ))}
-        {games &&
-          games.map((game) => (
+        {filteredGames &&
+          filteredGames.map((game) => (
             <GameCardContainer key={game.id}>
               <CardComponent game={game} />
             </GameCardContainer>

@@ -10,14 +10,16 @@ interface SideBarProps {
   setFilteredGames: (value: Game[]) => void;
   heading: string;
   setHeading: (value: string) => void;
-  onSelectGenre: (value: Genre) => void; //* mosh way
+  onSelectGenre: (value: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
 const SideBar = ({
   games,
   setFilteredGames,
   setHeading,
-  onSelectGenre, //* mosh way
+  onSelectGenre,
+  selectedGenre,
 }: SideBarProps) => {
   const { data, error, isLoading } = useGenres();
   const [genreName, setGenreName] = useState("");
@@ -43,7 +45,7 @@ const SideBar = ({
             onClick={(event) => {
               event.preventDefault();
               setGenreName(genre.name);
-              onSelectGenre(genre); //* mosh way
+              onSelectGenre(genre);
             }}
           >
             <Flex justifyContent={"flex-start"} alignItems={"center"}>
@@ -53,7 +55,12 @@ const SideBar = ({
                 src={getCroppedImageURL(genre.image_background)}
                 objectFit={"cover"}
               />
-              <Text marginLeft={4}>{genre.name}</Text>
+              <Text
+                fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+                marginLeft={4}
+              >
+                {genre.name}
+              </Text>
             </Flex>
           </ListItem>
         ))}
