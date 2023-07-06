@@ -5,15 +5,16 @@ import GameCardContainer from "./CardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
 import CardComponent from "./CardComponent";
 import SelectComponentContainer from "./SelectComponentContainer";
-// import useGames from "../hooks/useGames";
+import Genre from "../interfaces/Genre";
 
 interface GameGridProps {
   games: Game[];
   error: string;
   isLoading: boolean;
-  filteredGames: Game[];
+  filteredGames: Game[] | null;
   setFilteredGames: (value: Game[]) => void;
   setSortOption: (value: string) => void;
+  selectedGenre: Genre | null;
   heading: string;
 }
 
@@ -24,6 +25,7 @@ const GameGrid = ({
   filteredGames,
   setFilteredGames,
   setSortOption,
+  selectedGenre,
   heading,
 }: GameGridProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
@@ -44,6 +46,12 @@ const GameGrid = ({
       setFilteredGames(games);
     }
   }, [platformSelection]);
+
+  useEffect(() => {
+    if (filteredGames?.length === 0)
+      if (selectedGenre) setFilteredGames(selectedGenre?.games);
+      else setFilteredGames(games);
+  });
 
   return (
     <>

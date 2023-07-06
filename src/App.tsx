@@ -11,7 +11,7 @@ function App() {
   const [sortOption, setSortOption] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   const { games, error, isLoading } = useGames({ sortOption });
-  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[] | []>([]);
   const [heading, setHeading] = useState("");
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
@@ -50,6 +50,7 @@ function App() {
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}
             setSortOption={setSortOption}
+            selectedGenre={selectedGenre}
             heading={heading}
           />
         </GridItem>
