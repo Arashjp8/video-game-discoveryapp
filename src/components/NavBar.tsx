@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import SearchBox from "./SearchBox";
 import Game from "../interfaces/Game";
 import ColorModeSwitch from "./ColorModeSwitch";
+import Genre from "../interfaces/Genre";
 
 interface NavBarProps {
   games: Game[];
   setFilteredGames: (value: Game[]) => void;
+  onSelectGenre: (value: Genre) => void;
 }
 
-const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
+const NavBar = ({ games, setFilteredGames, onSelectGenre }: NavBarProps) => {
   const [searchInput, setSearchInput] = useState("");
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
@@ -32,7 +34,23 @@ const NavBar = ({ games, setFilteredGames }: NavBarProps) => {
       gap={"10px"}
       alignItems={"center"}
     >
-      <Text as={"h2"} fontSize={"2xl"} color={textColor}>
+      <Text
+        as={"h2"}
+        fontSize={"2xl"}
+        color={textColor}
+        cursor={"pointer"}
+        onClick={(event) => {
+          event.preventDefault();
+          onSelectGenre({
+            id: 0,
+            name: "",
+            image_background: "",
+            games_count: 0,
+            games: [],
+          });
+          setFilteredGames(games);
+        }}
+      >
         LOGO
       </Text>
       <Spacer />

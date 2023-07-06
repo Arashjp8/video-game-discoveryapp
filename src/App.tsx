@@ -14,6 +14,8 @@ function App() {
   const [filteredGames, setFilteredGames] = useState<Game[] | []>([]);
   const [heading, setHeading] = useState("");
 
+  const onSelectGenre = (genre: Genre): void => setSelectedGenre(genre);
+
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   return (
@@ -23,7 +25,11 @@ function App() {
         templateColumns={{ base: "1fr", lg: "200px 1fr" }}
       >
         <GridItem area={"nav"}>
-          <NavBar games={games} setFilteredGames={setFilteredGames} />
+          <NavBar
+            games={games}
+            setFilteredGames={setFilteredGames}
+            onSelectGenre={onSelectGenre}
+          />
         </GridItem>
         <Show above="lg">
           <GridItem
@@ -37,7 +43,7 @@ function App() {
               setFilteredGames={setFilteredGames}
               heading={heading}
               setHeading={setHeading}
-              onSelectGenre={(genre) => setSelectedGenre(genre)}
+              onSelectGenre={onSelectGenre}
               selectedGenre={selectedGenre}
             />
           </GridItem>
