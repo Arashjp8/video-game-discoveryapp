@@ -10,6 +10,7 @@ import Game from "../interfaces/Game";
 import CriticScore from "./CriticScore";
 import PlatformIconList from "./PlatformIconList";
 import getCroppedImageURL from "../services/image-url";
+import Emoji from "./Emoji";
 
 const CardComponent = ({ game }: { game: Game }) => {
   const cardBackgroundColor = useColorModeValue(
@@ -35,7 +36,10 @@ const CardComponent = ({ game }: { game: Game }) => {
             />
             <CriticScore score={game.metacritic} />
           </HStack>
-          <Heading fontSize={"2xl"}>{game.name}</Heading>
+          <Heading fontSize={"2xl"}>
+            {game.name}
+            <Emoji rating={game.rating_top} />
+          </Heading>
         </CardBody>
       </Card>
     </>
