@@ -1,4 +1,5 @@
 import { Select, useColorModeValue } from "@chakra-ui/react";
+import usePlatforms from "../hooks/usePlatforms";
 
 interface selectComponentProps {
   setSortOption?: (value: string) => void;
@@ -11,6 +12,7 @@ const SelectComponent = ({
   setPlatformSelection,
   options,
 }: selectComponentProps) => {
+  const { data } = usePlatforms();
   const selectStyles = {
     ":hover": {
       color: "whiteAlpha.400",
@@ -39,11 +41,15 @@ const SelectComponent = ({
             setPlatformSelection(userInput.target.value);
         }}
       >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        {setPlatformSelection &&
+          data.map((platform) => (
+            <option key={platform.id} value={platform.name}>
+              {platform.name}
+            </option>
+          ))}
+
+        {setSortOption &&
+          options.map((option) => <option key={option}>{option}</option>)}
       </Select>
     </>
   );
