@@ -29,7 +29,6 @@ const GameGrid = ({
   heading,
 }: GameGridProps) => {
   const [selectedPlatform, setSelectedPlatform] = useState("");
-
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
@@ -64,8 +63,8 @@ const GameGrid = ({
       />
       <SimpleGrid
         marginTop={5}
-        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-        spacing={3}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        spacing={6}
         padding={"10px"}
       >
         {error && <Text>{error}</Text>}
