@@ -1,10 +1,10 @@
-import { HStack, SimpleGrid, StackItem, Text, VStack } from "@chakra-ui/react";
+import { SimpleGrid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import SelectComponent from "./SelectComponent";
 import Game from "../interfaces/Game";
 import GameCardContainer from "./CardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
 import CardComponent from "./CardComponent";
+import SelectComponentContainer from "./SelectComponentContainer";
 // import useGames from "../hooks/useGames";
 
 interface GameGridProps {
@@ -28,8 +28,6 @@ const GameGrid = ({
 }: GameGridProps) => {
   const [platformSelection, setPlatformSelection] = useState("");
 
-  const sortOptions = ["random", "name", "release-date", "rating"];
-  const selectPlatformOptions = ["all", "pc", "xbox", "playstation", "linux"];
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
@@ -49,35 +47,11 @@ const GameGrid = ({
 
   return (
     <>
-      <VStack
-        flexDirection={"column"}
-        alignItems={"flex-start"}
-        paddingX={"10px"}
-      >
-        <Text fontSize={"4xl"} fontWeight={"700"}>
-          {heading}
-        </Text>
-        <HStack marginTop={4} textAlign={"center"}>
-          <StackItem marginRight={2}>
-            <HStack>
-              <Text marginRight={1}>Order by:</Text>
-              <SelectComponent
-                setSortOption={setSortOption}
-                options={sortOptions}
-              />
-            </HStack>
-          </StackItem>
-          <StackItem marginRight={2}>
-            <HStack>
-              <Text marginRight={1}>Platforms:</Text>
-              <SelectComponent
-                setPlatformSelection={setPlatformSelection}
-                options={selectPlatformOptions}
-              />
-            </HStack>
-          </StackItem>
-        </HStack>
-      </VStack>
+      <SelectComponentContainer
+        heading={heading}
+        setSortOption={setSortOption}
+        setPlatformSelection={setPlatformSelection}
+      />
       <SimpleGrid
         marginTop={5}
         columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
