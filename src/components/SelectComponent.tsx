@@ -3,13 +3,13 @@ import usePlatforms from "../hooks/usePlatforms";
 
 interface selectComponentProps {
   setSortOption?: (value: string) => void;
-  setPlatformSelection?: (value: string) => void;
+  setSelectedPlatform?: (value: string) => void;
   options?: string[] | null;
 }
 
 const SelectComponent = ({
   setSortOption,
-  setPlatformSelection,
+  setSelectedPlatform,
   options,
 }: selectComponentProps) => {
   const { data, error } = usePlatforms();
@@ -40,11 +40,11 @@ const SelectComponent = ({
         width={"144px"}
         onChange={(userInput) => {
           if (setSortOption) setSortOption(userInput.target.value);
-          if (setPlatformSelection)
-            setPlatformSelection(userInput.target.value);
+          if (setSelectedPlatform) setSelectedPlatform(userInput.target.value);
         }}
       >
-        {setPlatformSelection &&
+        <option defaultValue={""}></option>
+        {setSelectedPlatform &&
           data.map((platform) => (
             <option key={platform.id} value={platform.name}>
               {platform.name}

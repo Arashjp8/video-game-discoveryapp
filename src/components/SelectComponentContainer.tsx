@@ -1,18 +1,24 @@
-import { VStack, Text, HStack, StackItem } from "@chakra-ui/react";
+import { VStack, Text, HStack, StackItem, Heading } from "@chakra-ui/react";
 import SelectComponent from "./SelectComponent";
+import Genre from "../interfaces/Genre";
 
 interface SelectComponentContainerProps {
   heading: string;
   setSortOption: (value: string) => void;
-  setPlatformSelection: (value: string) => void;
+  selectedPlatform: string;
+  setSelectedPlatform: (value: string) => void;
+  selectedGenre: Genre | null;
 }
 
 const SelectComponentContainer = ({
   heading,
   setSortOption,
-  setPlatformSelection,
+  selectedPlatform,
+  setSelectedPlatform,
+  selectedGenre,
 }: SelectComponentContainerProps) => {
   const sortOptions = ["relevance", "name", "release-date", "rating"];
+  heading = `${selectedGenre?.name || ""} ${selectedPlatform || ""} Games`;
 
   return (
     <VStack
@@ -20,9 +26,9 @@ const SelectComponentContainer = ({
       alignItems={"flex-start"}
       paddingX={"10px"}
     >
-      <Text fontSize={"4xl"} fontWeight={"700"}>
+      <Heading as={"h1"} fontWeight={"700"}>
         {heading}
-      </Text>
+      </Heading>
       <HStack marginTop={4} textAlign={"center"}>
         <StackItem marginRight={2}>
           <HStack>
@@ -36,7 +42,7 @@ const SelectComponentContainer = ({
         <StackItem marginRight={2}>
           <HStack>
             <Text marginRight={1}>Platforms:</Text>
-            <SelectComponent setPlatformSelection={setPlatformSelection} />
+            <SelectComponent setSelectedPlatform={setSelectedPlatform} />
           </HStack>
         </StackItem>
       </HStack>

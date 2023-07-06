@@ -28,24 +28,24 @@ const GameGrid = ({
   selectedGenre,
   heading,
 }: GameGridProps) => {
-  const [platformSelection, setPlatformSelection] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState("");
 
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
-    if (platformSelection !== "all") {
+    if (selectedPlatform !== "all") {
       let filtered: Game[] = games.filter((game) =>
         game.parent_platforms.some(
           (platform) =>
             platform.platform.name.toLowerCase() ===
-            platformSelection.toLowerCase()
+            selectedPlatform.toLowerCase()
         )
       );
       setFilteredGames(filtered);
     } else {
       setFilteredGames(games);
     }
-  }, [platformSelection]);
+  }, [selectedPlatform]);
 
   useEffect(() => {
     if (filteredGames?.length === 0)
@@ -58,7 +58,9 @@ const GameGrid = ({
       <SelectComponentContainer
         heading={heading}
         setSortOption={setSortOption}
-        setPlatformSelection={setPlatformSelection}
+        selectedPlatform={selectedPlatform}
+        setSelectedPlatform={setSelectedPlatform}
+        selectedGenre={selectedGenre}
       />
       <SimpleGrid
         marginTop={5}
