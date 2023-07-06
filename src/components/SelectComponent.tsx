@@ -4,7 +4,7 @@ import usePlatforms from "../hooks/usePlatforms";
 interface selectComponentProps {
   setSortOption?: (value: string) => void;
   setPlatformSelection?: (value: string) => void;
-  options: string[];
+  options?: string[] | null;
 }
 
 const SelectComponent = ({
@@ -12,7 +12,8 @@ const SelectComponent = ({
   setPlatformSelection,
   options,
 }: selectComponentProps) => {
-  const { data } = usePlatforms();
+  const { data, error } = usePlatforms();
+
   const selectStyles = {
     ":hover": {
       color: "whiteAlpha.400",
@@ -24,6 +25,8 @@ const SelectComponent = ({
     "blackAlpha.200",
     "blackAlpha.300"
   );
+
+  if (error) return null;
 
   return (
     <>
@@ -49,6 +52,7 @@ const SelectComponent = ({
           ))}
 
         {setSortOption &&
+          options &&
           options.map((option) => <option key={option}>{option}</option>)}
       </Select>
     </>

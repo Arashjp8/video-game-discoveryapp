@@ -12,8 +12,7 @@ const SelectComponentContainer = ({
   setSortOption,
   setPlatformSelection,
 }: SelectComponentContainerProps) => {
-  const sortOptions = ["random", "name", "release-date", "rating"];
-  const selectPlatformOptions = ["all", "pc", "xbox", "playstation", "linux"];
+  const sortOptions = ["relevance", "name", "release-date", "rating"];
 
   return (
     <VStack
@@ -37,10 +36,7 @@ const SelectComponentContainer = ({
         <StackItem marginRight={2}>
           <HStack>
             <Text marginRight={1}>Platforms:</Text>
-            <SelectComponent
-              setPlatformSelection={setPlatformSelection}
-              options={selectPlatformOptions}
-            />
+            <SelectComponent setPlatformSelection={setPlatformSelection} />
           </HStack>
         </StackItem>
       </HStack>
