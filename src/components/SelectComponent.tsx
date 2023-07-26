@@ -45,7 +45,7 @@ const SelectComponent = ({
       >
         <option defaultValue={""}></option>
         {setSelectedPlatform &&
-          data.map((platform) => (
+          data?.results.map((platform) => (
             <option key={platform.id} value={platform.name}>
               {platform.name}
             </option>
