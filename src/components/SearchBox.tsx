@@ -15,6 +15,7 @@ const SearchBox = ({ onSearch }: SearchBoxProps) => {
         event.preventDefault();
         if (ref.current) onSearch(ref.current.value);
       }}
+      style={{ width: "100%" }}
     >
       <InputGroup>
         <InputLeftElement children={<BsSearch />} />
