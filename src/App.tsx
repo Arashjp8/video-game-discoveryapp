@@ -18,8 +18,6 @@ function App() {
 
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
-  // console.log(import.meta.env.VITE_API_KEY);
-
   return (
     <>
       <Grid

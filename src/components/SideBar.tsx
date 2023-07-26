@@ -50,7 +50,7 @@ const SideBar = ({
       <List fontSize={"1.4em"} spacing={4}>
         {isLoading && <Spinner />}
         {data &&
-          data.map((genre) => (
+          data?.results.map((genre) => (
             <ListItem
               key={genre.id}
               cursor={"pointer"}

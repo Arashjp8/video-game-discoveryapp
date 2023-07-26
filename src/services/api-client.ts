@@ -1,5 +1,3 @@
-// import { API_KEY } from "./../../apiConfig";
-
 import axios from "axios";
 
 export default axios.create({
