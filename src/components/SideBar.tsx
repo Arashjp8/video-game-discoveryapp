@@ -13,10 +13,10 @@ import getCroppedImageURL from "../services/image-url";
 
 interface SideBarProps {
   onSelectGenre: (value: Genre) => void;
-  selectedGenre: Genre | null;
+  selectedGenreId?: number;
 }
 
-const SideBar = ({ onSelectGenre, selectedGenre }: SideBarProps) => {
+const SideBar = ({ onSelectGenre, selectedGenreId }: SideBarProps) => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return null;
@@ -45,9 +45,7 @@ const SideBar = ({ onSelectGenre, selectedGenre }: SideBarProps) => {
                   objectFit={"cover"}
                 />
                 <Text
-                  fontWeight={
-                    genre.id === selectedGenre?.id ? "bold" : "normal"
-                  }
+                  fontWeight={genre.id === selectedGenreId ? "bold" : "normal"}
                   marginLeft={4}
                 >
                   {genre.name}
