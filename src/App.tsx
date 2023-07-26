@@ -23,8 +23,6 @@ function App() {
   const [filteredGames, setFilteredGames] = useState<Game[] | undefined>([]);
   const [heading, setHeading] = useState("");
 
-  const onSelectGenre = (genre: Genre): void => setSelectedGenre(genre);
-
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   return (
@@ -48,9 +46,6 @@ function App() {
             paddingX={"20px"}
           >
             <SideBar
-              games={data?.results}
-              setFilteredGames={setFilteredGames}
-              heading={heading}
               setHeading={setHeading}
               onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
               selectedGenre={gameQuery.genre}
