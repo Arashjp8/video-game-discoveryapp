@@ -1,23 +1,12 @@
-import { Search2Icon } from "@chakra-ui/icons";
-import {
-  Input,
-  InputGroup,
-  InputLeftElement,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useRef } from "react";
+import { BsSearch } from "react-icons/bs";
 
 interface SearchBoxProps {
   onSearch: (searchText: string) => void;
 }
 
 const SearchBox = ({ onSearch }: SearchBoxProps) => {
-  const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
-  const searchBoxTextColor = useColorModeValue(
-    "blackAlpha.600",
-    "whiteAlpha.600"
-  );
-
   const ref = useRef<HTMLInputElement>(null);
 
   return (
@@ -28,16 +17,12 @@ const SearchBox = ({ onSearch }: SearchBoxProps) => {
       }}
     >
       <InputGroup>
-        <InputLeftElement paddingLeft={2} pointerEvents={"none"}>
-          <Search2Icon color={textColor} />
-        </InputLeftElement>
+        <InputLeftElement children={<BsSearch />} />
         <Input
-          type="text"
           ref={ref}
-          placeholder="search..."
-          _placeholder={{ color: searchBoxTextColor }}
           borderRadius={20}
-          variant={"filled"}
+          placeholder="Search games..."
+          variant="filled"
         />
       </InputGroup>
     </form>

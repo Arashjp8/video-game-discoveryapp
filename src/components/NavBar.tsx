@@ -1,4 +1,4 @@
-import { HStack, Spacer, Text, useColorModeValue } from "@chakra-ui/react";
+import { HStack, Text, useColorModeValue } from "@chakra-ui/react";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchBox from "./SearchBox";
 
@@ -10,13 +10,11 @@ const NavBar = ({ onSearch }: NavBarProps) => {
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   return (
-    <HStack padding={"10px"}>
+    <HStack padding={"10px"} justifyContent={"space-between"}>
       <Text as={"h2"} fontSize={"2xl"} color={textColor}>
         LOGO
       </Text>
-      <Spacer />
       <SearchBox onSearch={onSearch} />
-      <Spacer />
       <ColorModeSwitch />
     </HStack>
   );
