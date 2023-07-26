@@ -16,9 +16,10 @@ export interface GameQuery {
 }
 
 function App() {
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
   const [sortOption, setSortOption] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const { data, error, isLoading } = useGames();
+  const { data, error, isLoading } = useGames(gameQuery);
   const [filteredGames, setFilteredGames] = useState<Game[] | undefined>([]);
   const [heading, setHeading] = useState("");
 
@@ -34,9 +35,9 @@ function App() {
       >
         <GridItem area={"nav"}>
           <NavBar
-            games={data?.results}
-            setFilteredGames={setFilteredGames}
-            onSelectGenre={onSelectGenre}
+            onSearch={(searchText) =>
+              setGameQuery({ ...gameQuery, searchText })
+            }
           />
         </GridItem>
         <Show above="lg">
@@ -51,8 +52,8 @@ function App() {
               setFilteredGames={setFilteredGames}
               heading={heading}
               setHeading={setHeading}
-              onSelectGenre={onSelectGenre}
-              selectedGenre={selectedGenre}
+              onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+              selectedGenre={gameQuery.genre}
             />
           </GridItem>
         </Show>

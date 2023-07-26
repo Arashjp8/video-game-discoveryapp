@@ -5,13 +5,13 @@ import {
   InputLeftElement,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useRef } from "react";
 
 interface SearchBoxProps {
-  searchInput: string;
-  setSearchInput: (value: string) => void;
+  onSearch: (searchText: string) => void;
 }
 
-const SearchBox = ({ searchInput, setSearchInput }: SearchBoxProps) => {
+const SearchBox = ({ onSearch }: SearchBoxProps) => {
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
   const searchBoxBackgroundColor = useColorModeValue(
     "blackAlpha.200",
@@ -22,18 +22,22 @@ const SearchBox = ({ searchInput, setSearchInput }: SearchBoxProps) => {
     "whiteAlpha.600"
   );
 
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
-    <>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (ref.current) onSearch(ref.current.value);
+      }}
+    >
       <InputGroup width={"100%"} marginRight={5} marginLeft={5}>
         <InputLeftElement paddingLeft={2} pointerEvents={"none"}>
           <Search2Icon color={textColor} />
         </InputLeftElement>
         <Input
           type="text"
-          onChange={(userInput) => {
-            setSearchInput(userInput.target.value);
-          }}
-          value={searchInput}
+          ref={ref}
           placeholder="search..."
           _placeholder={{ color: searchBoxTextColor }}
           size={"lg"}
@@ -43,7 +47,7 @@ const SearchBox = ({ searchInput, setSearchInput }: SearchBoxProps) => {
           borderRadius={25}
         />
       </InputGroup>
-    </>
+    </form>
   );
 };
 

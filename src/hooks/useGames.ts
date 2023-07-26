@@ -2,13 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import Game from "../interfaces/Game";
 import apiClient from "../services/api-client";
 import { FetchResponse } from "./useData";
-import useSort from "./useSort";
+import { GameQuery } from "../App";
 
-interface useGameProps {
-  sortOption: string;
-}
-
-const useGames = () => {
+const useGames = (gameQuery: GameQuery) => {
   // const [games, setGames] = useState<Game[]>([]);
   // const [error, setError] = useState("");
   // const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +36,12 @@ const useGames = () => {
     queryFn: async () => {
       return await apiClient
         .get<FetchResponse<Game>>("/games", {
-          params: {},
+          params: {
+            genres: gameQuery.genre?.id,
+            parent_platforms: gameQuery.platform?.id,
+            ordering: gameQuery.sortOrder,
+            search: gameQuery.searchText,
+          },
         })
         .then((res) => res.data);
     },
