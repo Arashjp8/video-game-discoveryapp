@@ -1,10 +1,18 @@
-import GameGrid from "./components/GameGrid";
-import NavBar from "./components/NavBar";
-import { Grid, GridItem, Show, useColorModeValue } from "@chakra-ui/react";
-import SideBar from "./components/SideBar";
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Show,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useState } from "react";
-import Game from "./interfaces/Game";
-import useGames from "./hooks/useGames";
+import GameGrid from "./components/GameGrid";
+import GameHeading from "./components/GameHeading";
+import NavBar from "./components/NavBar";
+import PlatformSelector from "./components/PlatformSelector";
+import SideBar from "./components/SideBar";
+import SortSelector from "./components/SortSelector";
 import Genre from "./interfaces/Genre";
 import Platform from "./interfaces/Platform";
 
@@ -17,12 +25,6 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
-  const [sortOption, setSortOption] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const { data, error, isLoading } = useGames(gameQuery);
-  const [filteredGames, setFilteredGames] = useState<Game[] | undefined>([]);
-  const [heading, setHeading] = useState("");
-
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   return (
@@ -46,23 +48,34 @@ function App() {
             paddingX={"20px"}
           >
             <SideBar
-              setHeading={setHeading}
-              onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
               selectedGenre={gameQuery.genre}
+              onSelectGenre={(genre) => {
+                setGameQuery({ ...gameQuery, genre });
+              }}
             />
           </GridItem>
         </Show>
         <GridItem area={"main"} color={textColor} marginX={2}>
-          <GameGrid
-            games={data?.results}
-            error={error?.message}
-            isLoading={isLoading}
-            filteredGames={filteredGames}
-            setFilteredGames={setFilteredGames}
-            setSortOption={setSortOption}
-            selectedGenre={selectedGenre}
-            heading={heading}
-          />
+          <Box paddingLeft={2}>
+            <GameHeading gameQuery={gameQuery} />
+            <Flex marginBottom={5}>
+              <Box marginRight={5}>
+                <PlatformSelector
+                  selectedPlatform={gameQuery.platform}
+                  onSelectPlatform={(platform) =>
+                    setGameQuery({ ...gameQuery, platform })
+                  }
+                />
+                <SortSelector
+                  sortOrder={gameQuery.sortOrder}
+                  onSelectSortOrder={(sortOrder) =>
+                    setGameQuery({ ...gameQuery, sortOrder })
+                  }
+                />
+              </Box>
+            </Flex>
+          </Box>
+          <GameGrid gameQuery={gameQuery} />
         </GridItem>
       </Grid>
     </>

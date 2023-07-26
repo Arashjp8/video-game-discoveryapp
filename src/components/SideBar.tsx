@@ -7,23 +7,16 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import Game from "../interfaces/Game";
 import useGenres from "../hooks/useGenres";
-import getCroppedImageURL from "../services/image-url";
 import Genre from "../interfaces/Genre";
+import getCroppedImageURL from "../services/image-url";
 
 interface SideBarProps {
-  setHeading: (value: string) => void;
   onSelectGenre: (value: Genre) => void;
   selectedGenre: Genre | null;
 }
 
-const SideBar = ({
-  setHeading,
-  onSelectGenre,
-  selectedGenre,
-}: SideBarProps) => {
+const SideBar = ({ onSelectGenre, selectedGenre }: SideBarProps) => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return null;
@@ -40,8 +33,7 @@ const SideBar = ({
             <ListItem
               key={genre.id}
               cursor={"pointer"}
-              onClick={(event) => {
-                event.preventDefault();
+              onClick={() => {
                 onSelectGenre(genre);
               }}
             >

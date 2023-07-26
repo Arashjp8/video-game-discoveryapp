@@ -13,10 +13,6 @@ interface SearchBoxProps {
 
 const SearchBox = ({ onSearch }: SearchBoxProps) => {
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
-  const searchBoxBackgroundColor = useColorModeValue(
-    "blackAlpha.200",
-    "blackAlpha.300"
-  );
   const searchBoxTextColor = useColorModeValue(
     "blackAlpha.600",
     "whiteAlpha.600"
@@ -31,7 +27,7 @@ const SearchBox = ({ onSearch }: SearchBoxProps) => {
         if (ref.current) onSearch(ref.current.value);
       }}
     >
-      <InputGroup width={"100%"} marginRight={5} marginLeft={5}>
+      <InputGroup>
         <InputLeftElement paddingLeft={2} pointerEvents={"none"}>
           <Search2Icon color={textColor} />
         </InputLeftElement>
@@ -40,11 +36,8 @@ const SearchBox = ({ onSearch }: SearchBoxProps) => {
           ref={ref}
           placeholder="search..."
           _placeholder={{ color: searchBoxTextColor }}
-          size={"lg"}
-          background={searchBoxBackgroundColor}
-          color={searchBoxTextColor}
-          border={"none"}
-          borderRadius={25}
+          borderRadius={20}
+          variant={"filled"}
         />
       </InputGroup>
     </form>

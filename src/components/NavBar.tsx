@@ -10,13 +10,7 @@ const NavBar = ({ onSearch }: NavBarProps) => {
   const textColor = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
 
   return (
-    <HStack
-      as={"nav"}
-      padding={"20px"}
-      marginBottom={"10px"}
-      gap={"10px"}
-      alignItems={"center"}
-    >
+    <HStack padding={"10px"}>
       <Text as={"h2"} fontSize={"2xl"} color={textColor}>
         LOGO
       </Text>

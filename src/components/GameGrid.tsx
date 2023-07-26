@@ -1,85 +1,38 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import Game from "../interfaces/Game";
+import { GameQuery } from "../App";
+import useGames from "../hooks/useGames";
+import CardComponent from "./CardComponent";
 import GameCardContainer from "./CardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
-import CardComponent from "./CardComponent";
-import SelectComponentContainer from "./SelectComponentContainer";
-import Genre from "../interfaces/Genre";
 
 interface GameGridProps {
-  games: Game[] | undefined;
-  error: string | undefined;
-  isLoading: boolean;
-  filteredGames: Game[] | undefined;
-  setFilteredGames: (value: Game[] | undefined) => void;
-  setSortOption: (value: string) => void;
-  selectedGenre: Genre | null;
-  heading: string;
+  gameQuery: GameQuery;
 }
 
-const GameGrid = ({
-  games,
-  error,
-  isLoading,
-  filteredGames,
-  setFilteredGames,
-  setSortOption,
-  selectedGenre,
-  heading,
-}: GameGridProps) => {
-  const [selectedPlatform, setSelectedPlatform] = useState("");
+const GameGrid = ({ gameQuery }: GameGridProps) => {
+  const { data, error, isLoading } = useGames(gameQuery);
   const skeletons = [1, 2, 3, 4, 5, 6];
 
-  useEffect(() => {
-    if (selectedPlatform !== "all") {
-      let filtered: Game[] | undefined = games?.filter((game) =>
-        game.parent_platforms.some(
-          (platform) =>
-            platform.platform.name.toLowerCase() ===
-            selectedPlatform.toLowerCase()
-        )
-      );
-      setFilteredGames(filtered);
-    } else {
-      setFilteredGames(games);
-    }
-  }, [selectedPlatform]);
-
-  useEffect(() => {
-    if (filteredGames?.length === 0)
-      if (selectedGenre) setFilteredGames(selectedGenre?.games);
-      else setFilteredGames(games);
-  });
+  if (error) return <Text>{error.message}</Text>;
 
   return (
     <>
-      <SelectComponentContainer
-        heading={heading}
-        setSortOption={setSortOption}
-        selectedPlatform={selectedPlatform}
-        setSelectedPlatform={setSelectedPlatform}
-        selectedGenre={selectedGenre}
-      />
       <SimpleGrid
-        marginTop={5}
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spacing={6}
         padding={"10px"}
       >
-        {error && <Text>{error}</Text>}
         {isLoading &&
           skeletons.map((skeleton) => (
             <GameCardContainer key={skeleton}>
               <GameCardSkeleton />
             </GameCardContainer>
           ))}
-        {filteredGames &&
-          filteredGames.map((game) => (
-            <GameCardContainer key={game.id}>
-              <CardComponent game={game} />
-            </GameCardContainer>
-          ))}
+        {data?.results.map((game) => (
+          <GameCardContainer key={game.id}>
+            <CardComponent game={game} />
+          </GameCardContainer>
+        ))}
       </SimpleGrid>
     </>
   );
