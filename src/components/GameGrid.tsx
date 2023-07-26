@@ -8,11 +8,11 @@ import SelectComponentContainer from "./SelectComponentContainer";
 import Genre from "../interfaces/Genre";
 
 interface GameGridProps {
-  games: Game[];
-  error: string;
+  games: Game[] | undefined;
+  error: string | undefined;
   isLoading: boolean;
-  filteredGames: Game[] | null;
-  setFilteredGames: (value: Game[]) => void;
+  filteredGames: Game[] | undefined;
+  setFilteredGames: (value: Game[] | undefined) => void;
   setSortOption: (value: string) => void;
   selectedGenre: Genre | null;
   heading: string;
@@ -33,7 +33,7 @@ const GameGrid = ({
 
   useEffect(() => {
     if (selectedPlatform !== "all") {
-      let filtered: Game[] = games.filter((game) =>
+      let filtered: Game[] | undefined = games?.filter((game) =>
         game.parent_platforms.some(
           (platform) =>
             platform.platform.name.toLowerCase() ===

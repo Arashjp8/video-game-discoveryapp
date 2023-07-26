@@ -14,8 +14,8 @@ import getCroppedImageURL from "../services/image-url";
 import Genre from "../interfaces/Genre";
 
 interface SideBarProps {
-  games: Game[];
-  setFilteredGames: (value: Game[]) => void;
+  games: Game[] | undefined;
+  setFilteredGames: (value: Game[] | undefined) => void;
   heading: string;
   setHeading: (value: string) => void;
   onSelectGenre: (value: Genre) => void;
@@ -33,7 +33,7 @@ const SideBar = ({
   const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
-    const filtered = games.filter((game) =>
+    const filtered = games?.filter((game) =>
       game.genres.some((genre) => genre.name === genreName)
     );
     setFilteredGames(filtered);

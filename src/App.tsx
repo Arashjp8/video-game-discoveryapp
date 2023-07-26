@@ -6,12 +6,20 @@ import { useState } from "react";
 import Game from "./interfaces/Game";
 import useGames from "./hooks/useGames";
 import Genre from "./interfaces/Genre";
+import Platform from "./interfaces/Platform";
+
+export interface GameQuery {
+  genre: Genre | null;
+  platform: Platform | null;
+  sortOrder: string;
+  searchText: string;
+}
 
 function App() {
   const [sortOption, setSortOption] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const { games, error, isLoading } = useGames({ sortOption });
-  const [filteredGames, setFilteredGames] = useState<Game[] | []>([]);
+  const { data, error, isLoading } = useGames();
+  const [filteredGames, setFilteredGames] = useState<Game[] | undefined>([]);
   const [heading, setHeading] = useState("");
 
   const onSelectGenre = (genre: Genre): void => setSelectedGenre(genre);
@@ -26,7 +34,7 @@ function App() {
       >
         <GridItem area={"nav"}>
           <NavBar
-            games={games}
+            games={data?.results}
             setFilteredGames={setFilteredGames}
             onSelectGenre={onSelectGenre}
           />
@@ -39,7 +47,7 @@ function App() {
             paddingX={"20px"}
           >
             <SideBar
-              games={games}
+              games={data?.results}
               setFilteredGames={setFilteredGames}
               heading={heading}
               setHeading={setHeading}
@@ -50,8 +58,8 @@ function App() {
         </Show>
         <GridItem area={"main"} color={textColor} marginX={2}>
           <GameGrid
-            games={games}
-            error={error}
+            games={data?.results}
+            error={error?.message}
             isLoading={isLoading}
             filteredGames={filteredGames}
             setFilteredGames={setFilteredGames}

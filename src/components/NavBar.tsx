@@ -6,8 +6,8 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import Genre from "../interfaces/Genre";
 
 interface NavBarProps {
-  games: Game[];
-  setFilteredGames: (value: Game[]) => void;
+  games: Game[] | undefined;
+  setFilteredGames: (value: Game[] | undefined) => void;
   onSelectGenre: (value: Genre) => void;
 }
 
@@ -19,7 +19,7 @@ const NavBar = ({ games, setFilteredGames, onSelectGenre }: NavBarProps) => {
     if (searchInput.length === 0) {
       setFilteredGames(games);
     } else {
-      let filtered: Game[] = games.filter((game) =>
+      let filtered: Game[] | undefined = games?.filter((game) =>
         game.name.toLowerCase().includes(searchInput.toLowerCase())
       );
       setFilteredGames(filtered);
