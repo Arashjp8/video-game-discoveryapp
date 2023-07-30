@@ -8,18 +8,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import useGenres from "../hooks/useGenres";
-import Genre from "../interfaces/Genre";
 import getCroppedImageURL from "../services/image-url";
+import useGameQueryStore from "../store";
 
-interface SideBarProps {
-  onSelectGenre: (value: Genre) => void;
-  selectedGenreId?: number;
-}
-
-const SideBar = ({ onSelectGenre, selectedGenreId }: SideBarProps) => {
+const SideBar = () => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return null;
+
+  const selectedGenreId = useGameQueryStore((s) => s.gameQuery.genreId);
+  const setSelectedGenreId = useGameQueryStore((s) => s.setGenreId);
 
   return (
     <>
@@ -34,7 +32,7 @@ const SideBar = ({ onSelectGenre, selectedGenreId }: SideBarProps) => {
               key={genre.id}
               cursor={"pointer"}
               onClick={() => {
-                onSelectGenre(genre);
+                setSelectedGenreId(genre.id);
               }}
             >
               <Flex justifyContent={"flex-start"} alignItems={"center"}>
